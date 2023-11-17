@@ -7,6 +7,7 @@ import ProfileId from './components/pages/profileid/profileid'
 import Search from './components/pages/search/search'
 import Header from './components/header'
 import Footer from './components/footer'
+import Register from './components/pages/register/register'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/details" element={<Details />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/:id" element={<ProfileId />} />
         <Route path="/search" element={<Search />} />

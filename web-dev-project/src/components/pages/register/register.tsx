@@ -3,6 +3,7 @@ import { Container, TextField, Button, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function Register() {
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -11,7 +12,8 @@ export default function Register() {
   const handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     // Add registration logic here
-    console.log(email, password, confirmPassword)
+    console.log(username, email, password, confirmPassword)
+    
     // On successful registration, navigate to the login page
     navigate('/login');
   };
@@ -23,6 +25,19 @@ export default function Register() {
           Register an Account
         </Typography>
         <form onSubmit={handleSubmit} style={{ width: '100%', marginTop: 3 }}>
+        <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="username"
+            autoFocus
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
           <TextField
             variant="outlined"
             margin="normal"
@@ -32,7 +47,6 @@ export default function Register() {
             label="Email Address"
             name="email"
             autoComplete="email"
-            autoFocus
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />

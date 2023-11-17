@@ -5,10 +5,12 @@ import Login from './components/pages/login/login'
 import Profile from './components/pages/profile/profile'
 import ProfileId from './components/pages/profileid/profileid'
 import Search from './components/pages/search/search'
+import Header from './components/header'
 
 function App() {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/details" element={<Details />} />

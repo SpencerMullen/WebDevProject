@@ -1,13 +1,12 @@
-import express from 'express'
+import express, { Request, Response } from 'express';
 
-const app = express()
-const port = 8081
+const app = express();
+const PORT = process.env.PORT || 8081;
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+app.get('/', (req: Request, res: Response) => {
+  res.send('Hello World!');
+});
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
-
+app.listen(PORT, () => {
+  console.log(`Example app listening at http://localhost:${PORT}`);
+});

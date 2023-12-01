@@ -1,1 +1,12 @@
 GET http://localhost:8080/
+
+#  Example response
+{
+    "message": "Hello World!"
+}
+
+###
+# Search movies by title
+
+GET http://localhost:8080/tmdb/search/?title=Oppenheimer
+Content-Type: application/json

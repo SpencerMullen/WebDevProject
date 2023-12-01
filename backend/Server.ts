@@ -1,11 +1,13 @@
 import express, { Request, Response } from 'express';
+import dotenv from 'dotenv';
 import tmdb_route from './routes/tmdb_route';
 
 const app = express();
-const PORT = process.env.PORT || 8081;
+dotenv.config();
+const PORT = process.env.PORT || 8080;
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!');
+  res.send('Nothing to see here!');
 });
 app.use('/tmdb', tmdb_route)
 

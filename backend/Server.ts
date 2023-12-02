@@ -1,8 +1,8 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from "cors";
-import UsersRoutes from './routes/users';
-import MoviesRoutes from './routes/movies';
+import UsersRoutes from './routes/userRoute';
+import MoviesRoutes from './routes/moviesRoute';
 
 const app = express();
 dotenv.config();

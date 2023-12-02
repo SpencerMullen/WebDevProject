@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "username": "admin",
+        "password": "admin",
+        "email": "admin@admin.com",
+        "role": "admin",
+        "movies": [1, 2]
+    },
+    {
+        "id": 2,
+        "username": "user0",
+        "password": "user0",
+        "email": "user0@email.com",
+        "role": "user",
+        "movies": [3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    }
+]

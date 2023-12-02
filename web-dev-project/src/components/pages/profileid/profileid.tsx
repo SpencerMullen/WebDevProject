@@ -1,21 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Typography, Avatar, Grid, Paper } from '@mui/material';
+import { User, Movie } from '../../../types';
+import axios from 'axios';
 
 export default function ProfileId() {
   const { id } = useParams();
-  const [userProfile, setUserProfile] = useState(null);
+  const [userProfile, setUserProfile] = useState<User | null>(null);
+  const [movies, setMovies] = useState<Movie[]>([]);
 
   // Dummy fetch function - replace with actual API call
-  const fetchUserProfile = async (userId) => {
-    // Replace with actual fetch/request to your backend
-    // Example response
-    const response = {
-      username: 'otherUser',
-      profilePic: 'https://via.placeholder.com/175',
-      topRatedMovies: ['Movie 1', 'Movie 2', 'Movie 3'],
-    };
-    setUserProfile(response);
+  const fetchUserProfile = async (userId: string | undefined) => {
+    const response = await axios.get(`http://localhost:8081/users/${userId}`);
+    console.log(response.data);
+    setUserProfile(response.data);
+    await fetchMovies();
+  };
+
+  // uses the likedMovies array from the user profile to fetch the movie data
+  const fetchMovies = async () => {
+    if (userProfile === null) return;
+
+    userProfile.likedMovies.map(async (movieId) => (
+      await axios.get(`http://localhost:8081/movies/${movieId}`)
+        .then((response) => {
+          setMovies([...movies, response.data]);
+        })
+    ));
   };
 
   useEffect(() => {
@@ -36,11 +47,19 @@ export default function ProfileId() {
 
         <Grid item xs={12}>
           <Typography variant="h5">Top 3 Rated Movies</Typography>
-          {userProfile.topRatedMovies.map((movie, index) => (
+          {userProfile.likedMovies.map((movie, index) => (
             <Paper key={index} style={{ padding: '10px', marginTop: '10px' }}>
               <Typography>{movie}</Typography>
             </Paper>
           ))}
+          
+          {/** this should be the final code
+            movies.slice(0,3).map((movie, index) => (
+              <Paper key={index} style={{ padding: '10px', marginTop: '10px' }}>
+                <Typography>{movie.title}</Typography>
+              </Paper>
+            ))
+          */}
         </Grid>
 
         {/* Additional sections can be added here */}

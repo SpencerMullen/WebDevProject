@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { TextField, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import axios from 'axios';
+import { Movie } from '../../../types';
 
 export default function Search() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [movies, setMovies] = useState([]);
+  const [params, setParams] = useState<string>('');
+  const [movies, setMovies] = useState<Movie[]>([]);
 
   // Function to update the URL query parameters
   const updateSearchParams = (params) => {
@@ -13,22 +16,21 @@ export default function Search() {
 
   // Function to fetch movies based on search criteria
   const fetchMovies = async () => {
-    const query = searchParams.get('query') || '';
-    const genre = searchParams.get('genre') || '';
-    const sortBy = searchParams.get('sort') || 'name';
-
-    // Replace with actual API call to fetch movies
-    // Apply search, filter, and sorting logic in the API or here after fetching
+    const response = await axios.get(`http://localhost:8081/search/${params}`);
+    console.log(response.data);
+    setMovies(response.data);
   };
 
   // Fetch movies when search parameters change
   useEffect(() => {
+    if (!params) return;
     fetchMovies();
-  }, [searchParams]);
+  }, [params]);
 
   // Handlers for search input, genre, and sort by changes
   const handleSearchChange = (event) => {
-    updateSearchParams({ ...Object.fromEntries(searchParams.entries()), query: event.target.value });
+    // updateSearchParams({ ...Object.fromEntries(searchParams.entries()), query: event.target.value });
+    setParams(event.target.value);
   };
 
   const handleGenreChange = (event) => {
@@ -44,7 +46,7 @@ export default function Search() {
       <TextField
         label="Search by Title"
         variant="outlined"
-        value={searchParams.get('query') || ''}
+        value={params}
         onChange={handleSearchChange}
       />
       <FormControl>
@@ -74,11 +76,19 @@ export default function Search() {
       <Button onClick={fetchMovies}>Search</Button>
 
       {/* Display Movies Here */}
-      {movies.map((movie, index) => (
-        <div key={index}>
-          {/* Movie details */}
-        </div>
-      ))}
+      <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+        {movies.map((movie, index) => (
+          <div key={index} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '10%' }}>
+            <img
+              src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.image}`}
+              width="200"
+              height={300}
+              alt={movie.title}
+            />
+            <h1>{movie.title}</h1>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

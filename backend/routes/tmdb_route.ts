@@ -1,10 +1,11 @@
 import searchByTitle from "../movie/searchByTitle";
-
 import express, { Request, Response } from "express"
+
 let router = express.Router();
 
-router.get("/search", (req: Request, res: Response) => {
-    const title = req.query.title as string;
+router.get("/search/:title", (req: Request, res: Response) => {
+    const title = req.params.title;
+
     try {
         const movies = searchByTitle(title);
         res.json(movies);

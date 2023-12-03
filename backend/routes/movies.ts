@@ -1,11 +1,14 @@
 import db from '../mockDB/index';
 import searchByTitle from '../movie/searchByTitle';
+import searchById from '../movie/searchById';
 import express, { Request, Response } from 'express';
 import { Movie } from '../types';
 
 let router = express.Router();
 
 const MoviesRoutes = (app: any) => {
+
+    // search by title
     app.get("/search/:title", (req: Request, res: Response) => {
         const title = req.params.title;
         try {
@@ -28,6 +31,24 @@ const MoviesRoutes = (app: any) => {
             res.status(500).send(error.message);
         }
         console.log('movies route end')
+    });
+
+    // search by id
+    app.get("/searchById/:id", (req: Request, res: Response) => {
+        const id = req.params.id;
+        try {
+            searchById(id).then((movie) => {
+                console.log('searchById() returned');
+                console.log(movie);
+                if (movie === undefined) {
+                    res.status(404).send("Movie not found");
+                    return;
+                }
+                res.send(movie);
+            });
+        } catch (error: any) {
+            res.status(500).send(error.message);
+        }
     });
 }
 

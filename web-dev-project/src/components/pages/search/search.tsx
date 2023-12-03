@@ -16,20 +16,14 @@ export default function Search() {
 
   // Function to fetch movies based on search criteria
   const fetchMovies = async () => {
+    if (!params) return;
     const response = await axios.get(`http://localhost:8081/search/${params}`);
     console.log(response.data);
     setMovies(response.data);
   };
 
-  // Fetch movies when search parameters change
-  useEffect(() => {
-    if (!params) return;
-    fetchMovies();
-  }, [params]);
-
   // Handlers for search input, genre, and sort by changes
   const handleSearchChange = (event) => {
-    // updateSearchParams({ ...Object.fromEntries(searchParams.entries()), query: event.target.value });
     setParams(event.target.value);
   };
 

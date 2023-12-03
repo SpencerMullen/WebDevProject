@@ -26,6 +26,7 @@ type User = {
     password: string;
     email: string;
     // an array of movie ids that automatically converts ints to strings
+    genreList: number[] | string[];
     likedMovies: number[] | string[];
     likedShows: number[];
     id: number;

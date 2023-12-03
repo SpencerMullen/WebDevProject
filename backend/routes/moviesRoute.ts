@@ -1,7 +1,11 @@
 import db from '../mockDB/index';
-import searchByTitle from '../movie/searchByTitle';
 import express, { Request, Response } from 'express';
 import { Movie } from '../types';
+
+import searchByTitle from '../movie/searchByTitle';
+import searchByGenre from '../movie/searchByGenre';
+import getGenreOptions from '../movie/getGenreOptions';
+import searchMostPopularMovies from '../movie/searchMostPopularMovies';
 
 let router = express.Router();
 
@@ -23,6 +27,39 @@ const MoviesRoutes = (app: any) => {
                 console.log(movieMap[0]);
                 res.send(movieMap);
                 console.log(`movies Size: ${movies.length}`);
+            });
+        } catch (error: any) {
+            res.status(500).send(error.message);
+        }
+        console.log('movies route end')
+    });
+    app.get("/search/genre/:genre", (req: Request, res: Response) => {
+        console.log('here')
+        const genre = req.params.genre;
+        try {
+            searchByGenre(genre).then((movies) => {
+                res.send(movies);
+            });
+        } catch (error: any) {
+            res.status(500).send(error.message);
+        }
+        console.log('movies route end')
+    });
+    app.get("/genres/movies", (req: Request, res: Response) => {
+        try {
+            console.log('getting genres...');
+            getGenreOptions().then((genres) => {
+                res.send(genres);
+            });
+        } catch (error: any) {
+            res.status(500).send(error.message);
+        }
+        console.log('genres route end')
+    });
+    app.get('/movies/popular', (req: Request, res: Response) => {
+        try {
+            searchMostPopularMovies().then((movies) => {
+                res.send(movies);
             });
         } catch (error: any) {
             res.status(500).send(error.message);

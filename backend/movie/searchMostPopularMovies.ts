@@ -1,16 +1,12 @@
-import { Movie } from '../types';
 import axios from 'axios';
+import { Movie } from '../types';
 
-// example to get movies based on multiple genres:  
-// url: 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=28%20%7C%2012',
+async function searchMostPopularMovies() {
+    console.log('searching most popular movies...');
 
-
-async function searchByGenre(genre: string) {
-    console.log('searching by genre...');
-
-    const optionsOld = {
+    const options = {
         method: 'GET',
-        url: `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=${genre}`,
+        url: 'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1',
         headers: {
             accept: 'application/json',
             Authorization: 'Bearer ' + process.env.MOVIE_API_KEY
@@ -19,7 +15,7 @@ async function searchByGenre(genre: string) {
 
     try {
         console.log('requesting...');
-        const response = await axios.request(optionsOld);;
+        const response = await axios.request(options);;
         const data = response.data;
         console.log(data.results[0]);
         console.log(`total_results: ${data.total_results}`);
@@ -42,4 +38,4 @@ async function searchByGenre(genre: string) {
     }
 }
 
-export default searchByGenre;
+export default searchMostPopularMovies;

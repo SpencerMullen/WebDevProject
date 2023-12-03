@@ -1,0 +1,28 @@
+GET http://localhost:8081/
+
+#  Example response
+{
+    "message": "Hello World!"
+}
+
+###
+# Search movies by title
+
+# GET http://localhost:8081/search/
+# Content-Type: application/json
+
+
+###
+# Get genre options
+GET http://localhost:8081/genres/movies
+Content-Type: application/json
+
+###
+# Get movies by genre id
+GET http://localhost:8081/search/genre/28
+Content-Type: application/json
+
+###
+# Get most popular movies - first page
+GET http://localhost:8081/movies/popular
+Content-Type: application/json

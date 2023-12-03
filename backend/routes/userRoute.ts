@@ -1,5 +1,6 @@
 import db from '../mockDB/index';
 import { Request, Response } from 'express';
+import createNewUser from '../mongo/createNewUser';
 
 const UsersRoutes = (app: any) => {
     // get all users from database
@@ -16,9 +17,12 @@ const UsersRoutes = (app: any) => {
 
     // create new user
     app.post('/users', (req: Request, res: Response) => {
-        const user = req.body;
-        db.users.push(user);
-        res.send(db.users);
+        try {
+            const userData = req.body;
+            createNewUser(userData);
+        } catch (error: any) {
+            res.status(500).send(error.message);
+        }
     });
 }
 

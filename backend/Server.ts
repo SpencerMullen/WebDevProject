@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 import cors from "cors";
 import UsersRoutes from './routes/userRoute';
 import MoviesRoutes from './routes/moviesRoute';
@@ -20,4 +21,11 @@ MoviesRoutes(app);
 app.listen(PORT, () => {
   console.clear();
   console.log(`Example app listening at http://localhost:${PORT}`);
+  
+const connectionString = process.env.MONGO_URI as string;
+try {
+  mongoose.connect(connectionString).then(() => console.log('Connected to MongoDB'))
+} catch(error) {
+  console.error('Could not connect to MongoDB:', error);
+}
 });

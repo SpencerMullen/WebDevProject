@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { TextField, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import axios from 'axios';
 import { Movie } from '../../../types';
+import { Box, Image, Text, Button, SimpleGrid, AspectRatio } from "@chakra-ui/react";
 
 export default function Search() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -76,19 +77,32 @@ export default function Search() {
       <Button onClick={fetchMovies}>Search</Button>
 
       {/* Display Movies Here */}
-      <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-        {movies.map((movie, index) => (
-          <div key={index} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '10%' }}>
-            <img
-              src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.image}`}
-              width="200"
-              height={300}
-              alt={movie.title}
-            />
-            <h1>{movie.title}</h1>
-          </div>
-        ))}
-      </div>
+      <SimpleGrid columns={[1, 2, 3, 5]} spacing={10}>
+                    {movies.map((movie, index) => (
+                        <Box key={index} p={4} shadow="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
+                            <AspectRatio ratio={2 / 3} width="100%">
+                                <Image
+                                    src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.image}`}
+                                    alt={movie.title}
+                                    boxSize="300px"
+                                    objectFit="cover" // This makes sure the entire image fits within the box, though it may leave some empty space
+                                    // htmlWidth="110%" // This sets the width relative to the parent element
+                                    // htmlHeight="auto"
+                                />
+                            </AspectRatio>
+                            <Box p="6">
+                                <Text mt={2} fontSize="xl" fontWeight="bold" lineHeight="tight" isTruncated>
+                                    {movie.title}
+                                </Text>
+                                <Text mt={2} color="gray.500">Genre: {movie.genre}</Text>
+                                <Text color="gray.600">Rating: {movie.vote_average} ({movie.vote_count} votes)</Text>
+                                <Text color="gray.600">Popularity: {movie.popularity}</Text>
+                                <Text color="gray.600">Release Date: {movie.release_date}</Text>
+                                <Button mt={4} colorScheme="teal">Like</Button>
+                            </Box>
+                        </Box>
+                    ))}
+                </SimpleGrid>
     </div>
   );
 }

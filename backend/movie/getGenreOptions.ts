@@ -13,11 +13,11 @@ async function getGenreOptions() {
     };
 
     try {
-        console.log('requesting...');
+        // console.log('requesting...');
         const response = await axios.request(options);;
         const data = response.data;
-        console.log(data.genres[0]);
-        console.log(`total_results: ${data.total_results}`);
+        // console.log(data.genres[0]);
+        // console.log(`total_results: ${data.total_results}`);
         // return data.results;
         /**
         */

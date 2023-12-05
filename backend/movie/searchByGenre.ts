@@ -18,11 +18,11 @@ async function searchByGenre(genre: string) {
     };
 
     try {
-        console.log('requesting...');
+        // console.log('requesting...');
         const response = await axios.request(optionsOld);;
         const data = response.data;
-        console.log(data.results[0]);
-        console.log(`total_results: ${data.total_results}`);
+        // console.log(data.results[0]);
+        // console.log(`total_results: ${data.total_results}`);
         // return data.results;
         /**
         */

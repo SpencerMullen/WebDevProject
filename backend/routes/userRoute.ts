@@ -18,8 +18,12 @@ const UsersRoutes = (app: any) => {
     // create new user
     app.post('/users', (req: Request, res: Response) => {
         try {
+            console.log('Creating new user...')
+            console.log(req.body)
             const userData = req.body;
             createNewUser(userData);
+            res.status(200).send('User created successfully');
+            console.log('User created successfully')
         } catch (error: any) {
             res.status(500).send(error.message);
         }

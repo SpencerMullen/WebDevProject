@@ -10,6 +10,7 @@ dotenv.config();
 const PORT = process.env.PORT || 8081;
 
 app.use(cors());
+app.use(express.json())
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Nothing to see here!');

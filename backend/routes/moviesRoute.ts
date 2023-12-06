@@ -2,10 +2,10 @@ import db from '../mockDB/index';
 import express, { Request, Response } from 'express';
 import { Movie } from '../types';
 
-import searchByTitle from '../movie/searchByTitle';
-import searchByGenre from '../movie/searchByGenre';
-import getGenreOptions from '../movie/getGenreOptions';
-import searchMostPopularMovies from '../movie/searchMostPopularMovies';
+import searchByTitle from '../movie/Search/searchByTitle';
+import searchByGenre from '../movie/Search/searchByGenre';
+import getGenreOptions from '../movie/Genre/getGenreOptions';
+import searchMostPopularMovies from '../movie/Search/searchMostPopularMovies'; 
 
 let router = express.Router();
 
@@ -34,7 +34,6 @@ const MoviesRoutes = (app: any) => {
         console.log('movies route end')
     });
     app.get("/search/genre/:genre", (req: Request, res: Response) => {
-        console.log('here')
         const genre = req.params.genre;
         try {
             searchByGenre(genre).then((movies) => {
@@ -54,7 +53,6 @@ const MoviesRoutes = (app: any) => {
         } catch (error: any) {
             res.status(500).send(error.message);
         }
-        console.log('genres route end')
     });
     app.get('/movies/popular', (req: Request, res: Response) => {
         try {

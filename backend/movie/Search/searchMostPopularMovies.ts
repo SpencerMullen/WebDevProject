@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Movie } from '../types';
+import { Movie } from '../../types';
 
 async function searchMostPopularMovies() {
     console.log('searching most popular movies...');

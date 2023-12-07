@@ -14,8 +14,7 @@ const user = new mongoose.Schema({
     ratedMoviesId: [String],
     favoriteMoviesId: [String],
     watchListId: [String],
-});
+}, 
+{ collection: "users" });
 
-const UserSchema = mongoose.model('UserSchema', user);
-
-export default UserSchema;
+export default user;

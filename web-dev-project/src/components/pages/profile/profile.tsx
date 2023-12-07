@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Container, Typography, Avatar, TextField, Button, Grid, Paper } from '@mui/material';
+import axios from 'axios';
+import { ConfigurationServicePlaceholders } from 'aws-sdk/lib/config_service_placeholders';
 
 export default function Profile() {
   const [username] = useState('user'); // Replace with actual user data
@@ -13,6 +15,17 @@ export default function Profile() {
       setNewPicUrl('');
     }
   };
+
+  const genreList = async () => {
+    try {
+      const genres = await axios.get('http://localhost:8081/genres/movies')
+      console.log(genres)
+      return genres
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  genreList();
 
   // Dummy data for top rated movies
   const topRatedMovies = ['Movie 1', 'Movie 2', 'Movie 3'];
@@ -47,8 +60,6 @@ export default function Profile() {
             </Paper>
           ))}
         </Grid>
-
-        {/* Additional sections can be added here */}
       </Grid>
     </Container>
   )

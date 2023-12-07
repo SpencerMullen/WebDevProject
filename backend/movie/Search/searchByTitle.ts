@@ -1,4 +1,4 @@
-import { Movie } from '../types';
+import { Movie } from '../../types';
 import axios from 'axios';
 
 async function searchByTitle(title: string) {

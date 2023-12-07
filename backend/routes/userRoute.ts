@@ -16,7 +16,7 @@ const UsersRoutes = (app: any) => {
     });
 
     // create new user
-    app.post('/users', (req: Request, res: Response) => {
+    app.post('/users/signup', (req: Request, res: Response) => {
         try {
             console.log('Creating new user...')
             console.log(req.body)

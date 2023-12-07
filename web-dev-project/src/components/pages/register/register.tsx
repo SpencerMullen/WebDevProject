@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Container, TextField, Button, Typography, FormControl, FormLabel, RadioGroup, Radio, FormControlLabel } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import * as client from '../../user/client'
 
 export default function Register() {
   const [username, setUsername] = useState('');
@@ -11,18 +12,11 @@ export default function Register() {
   const [userType, setUserType] = useState('user');
   const navigate = useNavigate();
 
-  const handleSubmit = (event: { preventDefault: () => void; }) => {
+  const handleSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
-    // Add registration logic here
-    console.log(username, email, password, confirmPassword, userType)
 
     try {
-      axios.post('http://localhost:8081/users', {
-        username: username,
-        email: email,
-        password: password,
-        userType: userType
-      })
+      await client.signup({ username: username, email: email, password: password, userType: userType })
       console.log("Successfully sent user data to backend")
       navigate('/login');
     } catch (error) {

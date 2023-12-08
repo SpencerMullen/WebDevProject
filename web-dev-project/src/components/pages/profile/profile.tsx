@@ -8,6 +8,7 @@ export default function Profile() {
   const [profilePic, setProfilePic] = useState('https://via.placeholder.com/175');
   const [newPicUrl, setNewPicUrl] = useState('');
 
+  //TODO: handle submit form to update the user's information - need to pull data from genreSelectionForm.tsx
   const handlePicChange = () => {
     if (newPicUrl) {
       setProfilePic(newPicUrl);

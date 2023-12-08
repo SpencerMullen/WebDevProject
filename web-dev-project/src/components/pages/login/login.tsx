@@ -11,6 +11,7 @@ export default function Login() {
         e.preventDefault();
         try {
           client.signin({username, password});
+          console.log("Successfully signed in");
         } catch (error) {
           console.log(error)
         }

@@ -7,20 +7,20 @@ const request = axios.create({
 });
 
 //TODO: need to implement backend
-export const signin = async (credentials) => {
-  const response = await request.post( `${USERS_API}/signin`, credentials );
+export const signin = async (credentials: any) => {
+  const response = await request.post( `${BACKEND_API}/signin`, credentials );
   return response.data;
 };
 
 //TODO: need to implement backend
 export const account = async () => {
-  const response = await request.post(`${USERS_API}/account`);
+  const response = await request.post(`${BACKEND_API}/account`);
   return response.data;
 };
 
 //TODO: hook up to backend and implement in profile section
-export const updateUser = async (user) => {
-  const response = await request.put(`${USERS_API}/${user._id}`, user);
+export const updateUser = async (user: any) => {
+  const response = await request.put(`${BACKEND_API}/${user._id}`, user);
   return response.data;
 };
 
@@ -31,15 +31,15 @@ export const updateUser = async (user) => {
 // };
 
 //TODO: need to evaluate if needed for this project... probably do for updating a user?
-export const findUserById = async (id) => {
-  const response = await request.get(`${USERS_API}/${id}`);
+export const findUserById = async (id: number) => {
+  const response = await request.get(`${BACKEND_API}/${id}`);
   return response.data;
 };
 
 //Could use it in profile section... or for admins to delete other users....? might need a table view or something to delete users
-export const deleteUser = async (user) => {
+export const deleteUser = async (user: any) => {
   const response = await request.delete(
-    `${USERS_API}/${user._id}`);
+    `${BACKEND_API}/${user._id}`);
   return response.data;
 };
 
@@ -53,6 +53,6 @@ export const signup = async (userData: any) => {
 
 // need to implement it into profile section
 export const signout = async () => {
-  const response = await request.post(`${USERS_API}/signout`);
+  const response = await request.post(`${BACKEND_API}/signout`);
   return response.data;
 };

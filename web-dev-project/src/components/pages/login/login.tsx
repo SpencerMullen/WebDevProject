@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, Container, TextField, Button, Typography, Box } from '@mui/material';
-
+import * as client from '../../user/client'
 
 export default function Login() {
     
@@ -8,9 +8,12 @@ export default function Login() {
     const[password, setPassword] = useState<string>('')
 
     const handleLogin = (e: { preventDefault: () => void; }) => {
-        e.preventDefault()
-        console.log(username, password)
-        {/**TODO: Need authentication functionality */}
+        e.preventDefault();
+        try {
+          client.signin({username, password});
+        } catch (error) {
+          console.log(error)
+        }
     }
     return (
     <Container maxWidth="xs">

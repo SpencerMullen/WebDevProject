@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Container, Typography, Avatar, TextField, Button, Grid, Paper } from '@mui/material';
 
 export default function Profile() {
-  const [username] = useState('user'); // Replace with actual user data
-  const [email] = useState('user@example.com'); // Replace with actual user data
+  const [username, setUsername] = useState('user'); // Replace with actual user data
+  const [email, setEmail] = useState('user@example.com'); // Replace with actual user data
   const [profilePic, setProfilePic] = useState('https://via.placeholder.com/175');
   const [newPicUrl, setNewPicUrl] = useState('');
 

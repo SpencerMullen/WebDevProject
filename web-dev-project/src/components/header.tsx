@@ -2,9 +2,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button } from '@mui/material';
-let loggedIn = false;
+import * as client from '../components/user/client';
+let loggedIn = true; //need to convert this to some global variable or something like that... I don't think the header
+// will change when you login or logout... need to use react hooks of some sort.
 
 function Header() {
+    const handleLogout = async () => {
+        console.log('this worked')
+        client.signout();
+    }
     return (
         <AppBar position="static">
             <Toolbar>
@@ -18,9 +24,14 @@ function Header() {
                     Search
                 </Button>
                 {loggedIn ? (
-                    <Button color="inherit" component={Link} to="/profile">
-                        Profile
-                    </Button>
+                    <span>
+                        <Button color="inherit" component={Link} to="/profile">
+                            Profile
+                        </Button>
+                        <Button color='inherit' component={Link} to='/login' onClick={handleLogout}>
+                            Logout
+                        </Button>
+                    </span>
                 ) : (
                     <Button color="inherit" component={Link} to="/login">
                         Login

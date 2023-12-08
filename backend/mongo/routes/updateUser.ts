@@ -1,4 +1,5 @@
 import model from "../model";
 
-export const updateUser = (genreList: string, user: string) =>
-  model.updateOne({ _id: userId }, { $set: user });
+//might want to update everything to allow for flexibility...?
+export const updateUser = (genreList: string, userId: string) =>
+  model.updateOne({ _genreList: genreList }, { $set: user });

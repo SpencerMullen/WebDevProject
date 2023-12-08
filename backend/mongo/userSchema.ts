@@ -6,7 +6,7 @@ const user = new mongoose.Schema({
     email: { type: String, required: true },
     firstName: String,
     lastName: String,
-    userType: String, // Assuming UserType is a string or you can replace it with its schema
+    userType: String,
     genreList: [String],
     favoriteMovies: [String],
     watchList: [String],

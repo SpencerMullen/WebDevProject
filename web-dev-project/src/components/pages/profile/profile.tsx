@@ -4,8 +4,8 @@ import axios from 'axios';
 import { ConfigurationServicePlaceholders } from 'aws-sdk/lib/config_service_placeholders';
 
 export default function Profile() {
-  const [username] = useState('user'); // Replace with actual user data
-  const [email] = useState('user@example.com'); // Replace with actual user data
+  const [username, setUsername] = useState('user'); // Replace with actual user data
+  const [email, setEmail] = useState('user@example.com'); // Replace with actual user data
   const [profilePic, setProfilePic] = useState('https://via.placeholder.com/175');
   const [newPicUrl, setNewPicUrl] = useState('');
 

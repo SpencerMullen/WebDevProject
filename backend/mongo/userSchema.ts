@@ -1,12 +1,17 @@
 import mongoose from 'mongoose';
 
 const user = new mongoose.Schema({
+    _id:{
+        type: String,
+        default: new mongoose.Types.ObjectId()
+        },
     username: { type: String, required: true },
     password: { type: String, required: true },
     email: { type: String, required: true },
     firstName: String,
     lastName: String,
-    userType: String, // Assuming UserType is a string or you can replace it with its schema
+    userType: String,
+    profilePicLink: String,
     genreList: [String],
     favoriteMovies: [String],
     watchList: [String],
@@ -14,8 +19,7 @@ const user = new mongoose.Schema({
     ratedMoviesId: [String],
     favoriteMoviesId: [String],
     watchListId: [String],
-});
+}, 
+{ collection: "users" });
 
-const UserSchema = mongoose.model('UserSchema', user);
-
-export default UserSchema;
+export default user;

@@ -1,5 +1,5 @@
-import UserSchema from "../schemas/userSchema";
-import { UserType } from "../types/user";
+import UserSchema from "../userSchema";
+import { UserType } from "../../types/user";
 
 
 function editUserData(id: number, userData: any) {

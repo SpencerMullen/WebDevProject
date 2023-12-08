@@ -2,8 +2,8 @@ import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from "cors";
-import UsersRoutes from './routes/userRoute';
-import MoviesRoutes from './routes/moviesRoute';
+import UsersRoutes from './mongo/userRoute';
+import MoviesRoutes from './movie/moviesRoute';
 import session from "express-session";
 
 const app = express();

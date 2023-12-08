@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Container, TextField, Button, Typography, FormControl, FormLabel, RadioGroup, Radio, FormControlLabel } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import * as client from '../../user/client'
 
 export default function Register() {

@@ -2,10 +2,10 @@ import db from '../mockDB/index';
 import express, { Request, Response } from 'express';
 import { Movie } from '../types';
 
-import searchByTitle from '../movie/Search/searchByTitle';
-import searchByGenre from '../movie/Search/searchByGenre';
-import getGenreOptions from '../movie/Genre/getGenreOptions';
-import searchMostPopularMovies from '../movie/Search/searchMostPopularMovies'; 
+import searchByTitle from './Search/searchByTitle';
+import searchByGenre from './Search/searchByGenre';
+import getGenreOptions from './Genre/getGenreOptions';
+import searchMostPopularMovies from './Search/searchMostPopularMovies'; 
 
 let router = express.Router();
 

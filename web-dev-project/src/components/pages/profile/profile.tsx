@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Container, Typography, Avatar, TextField, Button, Grid, Paper } from '@mui/material';
-import axios from 'axios';
-import { ConfigurationServicePlaceholders } from 'aws-sdk/lib/config_service_placeholders';
+import GenreSelectionForm from './genreSelectionForm';
 
 export default function Profile() {
   const [username] = useState('user'); // Replace with actual user data
@@ -15,17 +14,6 @@ export default function Profile() {
       setNewPicUrl('');
     }
   };
-
-  const genreList = async () => {
-    try {
-      const genres = await axios.get('http://localhost:8081/genres/movies')
-      console.log(genres)
-      return genres
-    } catch (e) {
-      console.log(e);
-    }
-  }
-  genreList();
 
   // Dummy data for top rated movies
   const topRatedMovies = ['Movie 1', 'Movie 2', 'Movie 3'];
@@ -51,7 +39,7 @@ export default function Profile() {
             Update Picture
           </Button>
         </Grid>
-
+        <GenreSelectionForm />
         <Grid item xs={12}>
           <Typography variant="h5">Top 3 Rated Movies</Typography>
           {topRatedMovies.map((movie, index) => (

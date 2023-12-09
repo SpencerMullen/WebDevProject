@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 import { Box, Image, Text, Button, SimpleGrid, AspectRatio } from "@chakra-ui/react";
-
+import GenreSelectionForm from "../profile/genreSelectionForm";
 
 export default function Home() {
 
@@ -29,7 +29,7 @@ export default function Home() {
         console.log(movies);
     }, []); 
     return (
-        <div>
+        <div>   
             <Box p={5}>
                 <Text fontSize="3xl">Home</Text>
                 <Text fontSize="xl">Hi User: ????</Text>

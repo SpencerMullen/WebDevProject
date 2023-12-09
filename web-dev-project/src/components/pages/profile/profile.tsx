@@ -1,12 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Container, Typography, Avatar, TextField, Button, Grid, Paper } from '@mui/material';
+import GenreSelectionForm from './genreSelectionForm';
+import * as client from '../../user/client'
 
 export default function Profile() {
-  const [username] = useState('user'); // Replace with actual user data
-  const [email] = useState('user@example.com'); // Replace with actual user data
+  const [username, setUsername] = useState('user'); // Replace with actual user data
+  const [email, setEmail] = useState('user@example.com'); // Replace with actual user data
   const [profilePic, setProfilePic] = useState('https://via.placeholder.com/175');
   const [newPicUrl, setNewPicUrl] = useState('');
+  const [topRatedMovies, setTopRatedMovies] = useState(['Movie 1', 'Movie 2', 'Movie 3']);
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
 
+  //TODO: handle submit form to update the user's information - need to pull data from genreSelectionForm.tsx
   const handlePicChange = () => {
     if (newPicUrl) {
       setProfilePic(newPicUrl);
@@ -14,9 +19,18 @@ export default function Profile() {
     }
   };
 
-  // Dummy data for top rated movies
-  const topRatedMovies = ['Movie 1', 'Movie 2', 'Movie 3'];
-
+  const updateUser = (data: any) => {
+    console.log('Updating user with data:', data);
+    client.updateUser(data);
+  }
+  useEffect(() => {
+    const data = {
+      profilePic,
+      selectedGenres,
+      // Add other user data that needs to be updated
+    };
+    updateUser(data);
+  }, [profilePic, selectedGenres]);
   return (
     <Container maxWidth="sm">
       <Grid container spacing={4} justifyContent="center" style={{ marginTop: '20px' }}>
@@ -38,7 +52,7 @@ export default function Profile() {
             Update Picture
           </Button>
         </Grid>
-
+        <GenreSelectionForm selectedGenres={selectedGenres} setSelectedGenres={setSelectedGenres} />
         <Grid item xs={12}>
           <Typography variant="h5">Top 3 Rated Movies</Typography>
           {topRatedMovies.map((movie, index) => (
@@ -47,8 +61,6 @@ export default function Profile() {
             </Paper>
           ))}
         </Grid>
-
-        {/* Additional sections can be added here */}
       </Grid>
     </Container>
   )

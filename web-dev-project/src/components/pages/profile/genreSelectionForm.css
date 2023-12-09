@@ -1,0 +1,34 @@
+.genre-form-container {
+    width: 90%; 
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 0px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+  }
+  
+  .genre-card {
+    cursor: pointer;
+    padding: 12px;
+    margin: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+  }
+  
+  .genre-card.selected {
+    background-color: #d3e2f8;
+  }
+  
+  .genre-card.grayed {
+    background-color: rgb(238, 238, 238); 
+  }
+  
+  .save-button {
+    border: 1px solid #ddd;
+    margin-top: 20px;
+  }
+  
+  

@@ -22,6 +22,11 @@ export default function Search() {
     console.log(response.data);
     setMovies(response.data);
   };
+  // Fetch movies when search parameters change
+  useEffect(() => {
+    if (!params) return;
+    fetchMovies();
+  }, [params]);
 
   // Handlers for search input, genre, and sort by changes
   const handleSearchChange = (event) => {

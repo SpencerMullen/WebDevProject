@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { URLSearchParamsInit, useSearchParams } from 'react-router-dom';
 import { TextField, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
 export default function Search() {
@@ -7,7 +7,7 @@ export default function Search() {
   const [movies, setMovies] = useState([]);
 
   // Function to update the URL query parameters
-  const updateSearchParams = (params) => {
+  const updateSearchParams = (params: URLSearchParamsInit | ((prev: URLSearchParams) => URLSearchParamsInit) | undefined) => {
     setSearchParams(params);
   };
 
@@ -27,16 +27,16 @@ export default function Search() {
   }, [searchParams]);
 
   // Handlers for search input, genre, and sort by changes
-  const handleSearchChange = (event) => {
-    updateSearchParams({ ...Object.fromEntries(searchParams.entries()), query: event.target.value });
+  const handleSearchChange = (any) => {
+    updateSearchParams({ ...Object.fromEntries(searchParams.entries()), query: any.target.value });
   };
 
-  const handleGenreChange = (event) => {
-    updateSearchParams({ ...Object.fromEntries(searchParams.entries()), genre: event.target.value });
+  const handleGenreChange = (any) => {
+    updateSearchParams({ ...Object.fromEntries(searchParams.entries()), genre: any.target.value });
   };
 
-  const handleSortChange = (event) => {
-    updateSearchParams({ ...Object.fromEntries(searchParams.entries()), sort: event.target.value });
+  const handleSortChange = (any) => {
+    updateSearchParams({ ...Object.fromEntries(searchParams.entries()), sort: any.target.value });
   };
 
   return (
@@ -74,7 +74,7 @@ export default function Search() {
       <Button onClick={fetchMovies}>Search</Button>
 
       {/* Display Movies Here */}
-      {movies.map((movie, index) => (
+      {movies.map((any, index) => (
         <div key={index}>
           {/* Movie details */}
         </div>

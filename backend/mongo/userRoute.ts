@@ -18,9 +18,11 @@ const UsersRoutes = (app: any) => {
         }
     });
     app.get('/users/:id', (req: Request, res: Response) => {
-        try{
+        try {
             const { id } = req.params;
+            console.log(`Finding user with id ${id}`);
             const user = findUserById(id);
+            console.log(JSON.stringify(user));
             res.status(200).json(user);
         } catch(error){
             res.status(400).json({ message: "Unable to find user" });

@@ -1,11 +1,9 @@
-import db from '../mockDB/index';
 import express, { Request, Response } from 'express';
-import { Movie } from '../types';
-
 import searchByTitle from './Search/searchByTitle';
 import searchByGenre from './Search/searchByGenre';
 import getGenreOptions from './Genre/getGenreOptions';
 import searchMostPopularMovies from './Search/searchMostPopularMovies'; 
+import searchById from './Search/searchById';
 
 let router = express.Router();
 
@@ -63,6 +61,20 @@ const MoviesRoutes = (app: any) => {
             res.status(500).send(error.message);
         }
         console.log('movies route end')
+    });
+    app.get("/searchById/:id", (req: Request, res: Response) => {
+        const id = req.params.id;
+        try {
+            searchById(id).then((movie) => {
+                if (movie === undefined) {
+                    res.status(404).send("Movie not found");
+                    return;
+                }
+                res.send(movie);
+            });
+        } catch (error: any) {
+            res.status(500).send(error.message);
+        }
     });
 }
 

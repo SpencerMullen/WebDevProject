@@ -4,6 +4,7 @@ import searchByGenre from './Search/searchByGenre';
 import getGenreOptions from './Genre/getGenreOptions';
 import searchMostPopularMovies from './Search/searchMostPopularMovies'; 
 import searchById from './Search/searchById';
+import { findUserById } from '../mongo/routes/findUsers';
 
 let router = express.Router();
 
@@ -32,9 +33,9 @@ const MoviesRoutes = (app: any) => {
         console.log('movies route end')
     });
     app.get("/search/genre/:genre", (req: Request, res: Response) => {
-        const genre = req.params.genre;
+        const genres = req.params.genre.split(',');
         try {
-            searchByGenre(genre).then((movies) => {
+            searchByGenre(genres).then((movies) => {
                 res.send(movies);
             });
         } catch (error: any) {
@@ -75,6 +76,27 @@ const MoviesRoutes = (app: any) => {
         } catch (error: any) {
             res.status(500).send(error.message);
         }
+    });
+    app.get("/movies/recommendations", async (req: Request, res: Response) => {
+        try {
+            //make sure to convert Id to string
+            let id = "0";
+            // get user genres
+            // const movies = getUserData(id).then((moviesGenres) => {
+            //    searchByGenre(movieGenres);
+            // });
+            const userGenres = await findUserById(id); // TODO: make sure we can get the user's genres like this: string[]
+            const temporaryUserGenres = ["28", "12", "16"]; // TODO: remove this line
+            // Now, search for movies based on these genres
+            // Assuming searchByGenre can handle an array of genres
+            const recommendedMovies = await searchByGenre(temporaryUserGenres);
+            // console.log("Backend: ", recommendedMovies);
+            res.status(200).send(recommendedMovies);
+            console.log('User recommended movies');
+        } catch (error: any) {
+            res.status(500).send(error.message);
+        }
+        console.log('movies route end')
     });
 }
 

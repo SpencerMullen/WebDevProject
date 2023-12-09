@@ -3,7 +3,7 @@
     max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ddd;
+    border: 0px solid #ddd;
     border-radius: 8px;
     background-color: #fff;
   }
@@ -27,6 +27,7 @@
   }
   
   .save-button {
+    border: 1px solid #ddd;
     margin-top: 20px;
   }
   

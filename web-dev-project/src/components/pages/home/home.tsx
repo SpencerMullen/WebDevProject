@@ -3,9 +3,8 @@ import axios from "axios"
 import { Box, Image, Text, Button, SimpleGrid, AspectRatio } from "@chakra-ui/react";
 import genreIdToName from "../../../utils/genreIdToName";
 
-export default function Home() {
+export default function Home({ loggedIn, username }: { loggedIn: boolean, username: string }) {
 
-    let loggedIn = true;
     const [users, setUsers] = useState([])
     const [movies, setMovies] = useState([])
 
@@ -30,11 +29,12 @@ export default function Home() {
         getMovies();
         console.log(movies);
     }, []); 
+
+
     return (
         <div>   
             <Box p={5}>
-                <Text fontSize="3xl">Home</Text>
-                <Text fontSize="xl">Hi User: ????</Text>
+                <Text fontSize="3xl">Hi User: {username}</Text>
 
                 <SimpleGrid columns={[1, 2, 3, 5]} spacing={10}>
                     {movies.map((movie, index) => (

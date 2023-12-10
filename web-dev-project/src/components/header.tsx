@@ -1,15 +1,16 @@
 // components/header.js
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 import * as client from '../components/user/client';
-let loggedIn = true; //need to convert this to some global variable or something like that... I don't think the header
-// will change when you login or logout... need to use react hooks of some sort.
 
-function Header() {
+function Header({ loggedIn, setLoggedIn }: { loggedIn: boolean, setLoggedIn: (loggedIn: boolean) => void}) {
+    const navigate = useNavigate();
+
     const handleLogout = async () => {
-        console.log('this worked')
-        client.signout();
+        // console.log('this worked')
+        await client.signout();
+        setLoggedIn(false);
+        navigate('/');
     }
     return (
         <AppBar position="static">

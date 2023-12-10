@@ -11,16 +11,38 @@ import Header from './components/header'
 import Footer from './components/footer'
 import Register from './components/pages/register/register'
 
+import * as client from './components/user/client';
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+
 function App() {
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  useEffect(() => {
+    const checkLoggedIn = async () => {
+      const userInfo = await client.getUserInfo();
+      const loggedIn = userInfo !== null;
+      setLoggedIn(loggedIn);
+    }
+    checkLoggedIn();
+  }, []);
+
+  useEffect(() => {
+    const tryThis = async () => {
+      const apiurl = "http://localhost:8081/users/current";
+      const response = await axios.get(apiurl);
+      console.log("RESPONSE ===", response);
+    }
+    tryThis();
+  }, []);
   // dotenv.config();
   return (
     <BrowserRouter>
-      <Header />
+      <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/details" element={<Details />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login setLoggedIn={setLoggedIn} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/:id" element={<ProfileId />} />

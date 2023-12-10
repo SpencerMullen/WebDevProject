@@ -1,22 +1,26 @@
 import { useState } from 'react'
 import { Link, Container, TextField, Button, Typography, Box } from '@mui/material';
 import * as client from '../../user/client'
+import { useNavigate } from 'react-router-dom';
 
-export default function Login() {
-    
-    const[username, setUsername] = useState<string>('')
-    const[password, setPassword] = useState<string>('')
+export default function Login({ setLoggedIn }: { setLoggedIn: (loggedIn: boolean) => void }) {
+  const navigate = useNavigate();
 
-    const handleLogin = (e: { preventDefault: () => void; }) => {
-        e.preventDefault();
-        try {
-          client.signin({username, password});
-          console.log("Successfully signed in");
-        } catch (error) {
-          console.log(error)
-        }
+  const [username, setUsername] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+
+  const handleLogin = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    try {
+      await client.signin({ username, password });
+      setLoggedIn(true);
+      navigate('/profile');
+    } catch (error) {
+      console.log(error)
     }
-    return (
+  }
+
+  return (
     <Container maxWidth="xs">
       <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Typography component="h1" variant="h5">
@@ -58,12 +62,12 @@ export default function Login() {
           </Button>
         </Box>
       </Box>
-        <Typography variant="body2" style={{ marginTop: '16px', textAlign: 'center' }}>
-            Don't have an account?{' '}
-            <Link href="/register" style={{ textDecoration: 'none' }}>
-            Register here
-            </Link>
-        </Typography>
+      <Typography variant="body2" style={{ marginTop: '16px', textAlign: 'center' }}>
+        Don't have an account?{' '}
+        <Link href="/register" style={{ textDecoration: 'none' }}>
+          Register here
+        </Link>
+      </Typography>
     </Container>
-    )
+  )
 }

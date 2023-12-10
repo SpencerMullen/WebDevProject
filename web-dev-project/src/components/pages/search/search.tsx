@@ -11,17 +11,20 @@ export default function Search() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [genreData, setGenreData] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const [popularitySort, setPopularitySort] = useState('popularity.desc');
-  const [releaseDateSort, setReleaseDateSort] = useState('primary_release_date.desc');
+  const [sort, setSort] = useState('popularity.desc');
+  const [searchCriteria, setSearchCriteria] = useState({
+    genre: '',
+    title: '',
+    sort: 'popularity.desc'
+  });
 
-  // Function to fetch movies based on search criteria
-  const fetchMovies = async (searchParameters) => {
-    const response = await axios.get(`http://localhost:8081/search`, { params: searchParameters });
+  const fetchMovies = async () => {
+    console.log("Fetch movies: ", searchParams);
+    const response = await axios.get(`http://localhost:8081/search`, { params: searchParams });
     console.log(response.data);
     setMovies(response.data);
   };
 
-  // Function to fetch genres
   const fetchGenres = async () => {
     try {
       const response = await axios.get('http://localhost:8081/genres/movies')
@@ -32,12 +35,19 @@ export default function Search() {
     }
   };
 
-  // Fetch genres on component mount
   useEffect(() => {
     fetchGenres();
   }, []);
 
-  // Function to render the selected genre names
+  useEffect(() => {
+    const newSearchParams = {
+      ...(selectedGenres.length > 0 && { genre: selectedGenres.join(',') }),
+      ...(params && { title: params }),
+      sort,
+    };
+    setSearchParams(newSearchParams);
+  }, [selectedGenres, params, sort]); 
+
   const renderSelectValue = (selected) => {
     if (selected.length === 0) {
       return "Select up to 5 genres";
@@ -49,7 +59,6 @@ export default function Search() {
     return selectedGenreNames.join(', ');
   };
 
-  // Handler for genre change
   const handleGenreChange = (event) => {
     const value = event.target.value;
     const genreIds = typeof value === 'string' ? value.split(',') : value;
@@ -58,34 +67,17 @@ export default function Search() {
     }
   };
 
-  // Handler for search input change
   const handleSearchChange = (event) => {
     setParams(event.target.value);
   };
 
-  // Handlers to toggle sort parameters
-  const togglePopularitySort = () => {
-    setPopularitySort(prev => prev === 'popularity.asc' ? 'popularity.desc' : 'popularity.asc');
+  const handleSortChange = (event) => {
+    setSort(event.target.value);
   };
 
-  const toggleReleaseDateSort = () => {
-    setReleaseDateSort(prev => prev === 'primary_release_date.asc' ? 'primary_release_date.desc' : 'primary_release_date.asc');
-  };
 
-  // Combined function to update search params and fetch movies
-  const updateAndFetchMovies = async () => {
-    const newSearchParams = {
-      ...(selectedGenres.length > 0 && { genre: selectedGenres.join(',') }),
-      ...(params && { title: params }),
-      sort: popularitySort.includes('popularity') ? popularitySort : releaseDateSort,
-    };
-    setSearchParams(newSearchParams); // Update the search params in the URL
-    await fetchMovies(newSearchParams); // Fetch movies with the updated parameters
-  };
-
-  // Trigger the update and fetch when the search button is clicked
   const handleSearchButtonClick = () => {
-    updateAndFetchMovies();
+    fetchMovies();
   };
 
   return (
@@ -133,16 +125,16 @@ export default function Search() {
         <FormControl sx={{ width: 300 }}>
           <InputLabel>Sort By</InputLabel>
           <Select
-            value={popularitySort} // or releaseDateSort depending on your UI logic
-            onChange={updateSearchParams} // This needs to be adjusted based on your UI logic
-          >
-            <MenuItem value={popularitySort} onClick={togglePopularitySort}>
-              {popularitySort === 'popularity.asc' ? 'Popularity Ascending' : 'Popularity Descending'}
-            </MenuItem>
-            <MenuItem value={releaseDateSort} onClick={toggleReleaseDateSort}>
-              {releaseDateSort === 'primary_release_date.asc' ? 'Date Ascending' : 'Date Descending'}
-            </MenuItem>
-          </Select>
+  value={sort}
+  onChange={(e) => {
+    handleSortChange(e);
+  }}
+>
+  <MenuItem value="popularity.desc">Popularity Descending</MenuItem>
+  <MenuItem value="popularity.asc">Popularity Ascending</MenuItem>
+  <MenuItem value="primary_release_date.desc">Release Date Descending</MenuItem>
+  <MenuItem value="primary_release_date.asc">Release Date Ascending</MenuItem>
+</Select>
         </FormControl>
         <Button color="primary" variant="contained" onClick={handleSearchButtonClick} size="large">
           Search

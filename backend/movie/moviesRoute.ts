@@ -2,7 +2,7 @@ import db from '../mockDB/index';
 import express, { Request, Response } from 'express';
 import { Movie } from '../types';
 
-import searchByTitle from './Search/searchByTitle';
+import searchByParam from './Search/searchByParam';
 import searchByGenre from './Search/searchByGenre';
 import getGenreOptions from './Genre/getGenreOptions';
 import searchMostPopularMovies from './Search/searchMostPopularMovies'; 
@@ -10,13 +10,12 @@ import searchMostPopularMovies from './Search/searchMostPopularMovies';
 let router = express.Router();
 
 const MoviesRoutes = (app: any) => {
-    app.get("/search/:title", (req: Request, res: Response) => {
-        const title = req.params.title;
+    app.get("/search/", (req: Request, res: Response) => {        
         try {
-            searchByTitle(title).then((movies) => {
-                console.log('searchByTitle() returned');
-                console.log(movies[0]);
-
+            const genre = typeof req.query.genre === 'string' ? req.query.genre : '';
+            const title = typeof req.query.title === 'string' ? req.query.title : '';
+            const sort = typeof req.query.sort === 'string' ? req.query.sort : '';
+            searchByParam(genre, title, sort).then((movies) => {
                 let movieMap = movies.map((movie: any) => ({
                     title: movie.title,
                     image: movie.image,
@@ -31,7 +30,6 @@ const MoviesRoutes = (app: any) => {
         } catch (error: any) {
             res.status(500).send(error.message);
         }
-        console.log('movies route end')
     });
     app.get("/search/genre/:genre", (req: Request, res: Response) => {
         const genre = req.params.genre;
@@ -46,7 +44,6 @@ const MoviesRoutes = (app: any) => {
     });
     app.get("/genres/movies", (req: Request, res: Response) => {
         try {
-            console.log('getting genres...');
             getGenreOptions().then((genres) => {
                 res.send(genres);
             });

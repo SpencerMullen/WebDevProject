@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import { Box, Image, Text, SimpleGrid, AspectRatio } from "@chakra-ui/react";
 import { Button } from '@mui/material';
-import GenreSelectionForm from "../profile/genreSelectionForm";
 
 export default function Home() {
 

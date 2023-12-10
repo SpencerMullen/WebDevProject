@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { TextField, Select, MenuItem, FormControl, InputLabel, Button } from '@mui/material';
+import { TextField, Select, MenuItem, FormControl, InputLabel, Button, Checkbox, ListItemText, OutlinedInput } from '@mui/material';
 import axios from 'axios';
 import { Movie } from '../../../types';
 import { Box, Image, Text, SimpleGrid, AspectRatio } from "@chakra-ui/react";
@@ -10,48 +10,82 @@ export default function Search() {
   const [params, setParams] = useState<string>('');
   const [movies, setMovies] = useState<Movie[]>([]);
   const [genreData, setGenreData] = useState([]);
-
-  // Function to update the URL query parameters
-  const updateSearchParams = (params: URLSearchParamsInit | ((prev: URLSearchParams) => URLSearchParamsInit) | undefined) => {
-    setSearchParams(params);
-  };
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+  const [popularitySort, setPopularitySort] = useState('popularity.desc');
+  const [releaseDateSort, setReleaseDateSort] = useState('primary_release_date.desc');
 
   // Function to fetch movies based on search criteria
-  const fetchMovies = async () => {
-    const response = await axios.get(`http://localhost:8081/search/${params}`);
+  const fetchMovies = async (searchParameters) => {
+    const response = await axios.get(`http://localhost:8081/search`, { params: searchParameters });
     console.log(response.data);
     setMovies(response.data);
   };
 
+  // Function to fetch genres
   const fetchGenres = async () => {
-      try {
-        const response = await axios.get('http://localhost:8081/genres/movies')
-        setGenreData(response.data);
-        console.log(response)
-      } catch (e) {
-        console.error('Error fetching genres:', e);
-      }
-    };
+    try {
+      const response = await axios.get('http://localhost:8081/genres/movies')
+      setGenreData(response.data);
+      console.log(response)
+    } catch (e) {
+      console.error('Error fetching genres:', e);
+    }
+  };
 
-  // Fetch movies when search parameters change
+  // Fetch genres on component mount
   useEffect(() => {
-    if (!params) return;
-    fetchMovies();
     fetchGenres();
-  }, [params]);
+  }, []);
 
-  // Handlers for search input, genre, and sort by changes
+  // Function to render the selected genre names
+  const renderSelectValue = (selected) => {
+    if (selected.length === 0) {
+      return "Select up to 5 genres";
+    }
+    // Find genre names based on selected IDs
+    const selectedGenreNames = genreData
+      .filter(genre => selected.includes(genre.id))
+      .map(genre => genre.name);
+    return selectedGenreNames.join(', ');
+  };
+
+  // Handler for genre change
+  const handleGenreChange = (event) => {
+    const value = event.target.value;
+    const genreIds = typeof value === 'string' ? value.split(',') : value;
+    if (genreIds.length <= 5) {
+      setSelectedGenres(genreIds);
+    }
+  };
+
+  // Handler for search input change
   const handleSearchChange = (event) => {
-    // updateSearchParams({ ...Object.fromEntries(searchParams.entries()), query: event.target.value });
     setParams(event.target.value);
   };
 
-  const handleGenreChange = (any) => {
-    updateSearchParams({ ...Object.fromEntries(searchParams.entries()), genre: any.target.value });
+  // Handlers to toggle sort parameters
+  const togglePopularitySort = () => {
+    setPopularitySort(prev => prev === 'popularity.asc' ? 'popularity.desc' : 'popularity.asc');
   };
 
-  const handleSortChange = (any) => {
-    updateSearchParams({ ...Object.fromEntries(searchParams.entries()), sort: any.target.value });
+  const toggleReleaseDateSort = () => {
+    setReleaseDateSort(prev => prev === 'primary_release_date.asc' ? 'primary_release_date.desc' : 'primary_release_date.asc');
+  };
+
+  // Combined function to update search params and fetch movies
+  const updateAndFetchMovies = async () => {
+    const newSearchParams = {
+      ...(selectedGenres.length > 0 && { genre: selectedGenres.join(',') }),
+      ...(params && { title: params }),
+      sort: popularitySort.includes('popularity') ? popularitySort : releaseDateSort,
+    };
+    setSearchParams(newSearchParams); // Update the search params in the URL
+    await fetchMovies(newSearchParams); // Fetch movies with the updated parameters
+  };
+
+  // Trigger the update and fetch when the search button is clicked
+  const handleSearchButtonClick = () => {
+    updateAndFetchMovies();
   };
 
   return (
@@ -71,45 +105,51 @@ export default function Search() {
           onChange={handleSearchChange}
           style={{ marginRight: 10, width: '25%' }}
         />
-        <FormControl>
+        <FormControl sx={{ width: 300 }}>
           <InputLabel>Genre</InputLabel>
           <Select
-            placeholder='All'
-            value={searchParams.get('genre') || '      '}
-            label="Genre"
+            multiple
+            value={selectedGenres}
             onChange={handleGenreChange}
-            style={{ marginRight: 10, width: '100%'}}
+            input={<OutlinedInput label="Genre" />}
+            renderValue={renderSelectValue}
+            MenuProps={{
+              PaperProps: {
+                style: {
+                  maxHeight: 224,
+                  width: 250,
+                },
+              },
+            }}
           >
-            {/*
-            <MenuItem value="comedy">Comedy</MenuItem>
-            <MenuItem value="drama">Drama</MenuItem>*/}
             {genreData.map((genre) => (
               <MenuItem key={genre.id} value={genre.id}>
-                {genre.name}
+                <Checkbox checked={selectedGenres.indexOf(genre.id) > -1} />
+                <ListItemText primary={genre.name} />
               </MenuItem>
             ))}
-            {/* ... other genres */}
           </Select>
         </FormControl>
-        <FormControl>
+        <FormControl sx={{ width: 300 }}>
           <InputLabel>Sort By</InputLabel>
           <Select
-            value={searchParams.get('sort') || 'name'}
-            label="Sort By"
-            onChange={handleSortChange}
-            style={{ marginRight: 10, marginLeft: 10 }}
+            value={popularitySort} // or releaseDateSort depending on your UI logic
+            onChange={updateSearchParams} // This needs to be adjusted based on your UI logic
           >
-            <MenuItem value="name">Name</MenuItem>
-            <MenuItem value="rating">Rating</MenuItem>
+            <MenuItem value={popularitySort} onClick={togglePopularitySort}>
+              {popularitySort === 'popularity.asc' ? 'Popularity Ascending' : 'Popularity Descending'}
+            </MenuItem>
+            <MenuItem value={releaseDateSort} onClick={toggleReleaseDateSort}>
+              {releaseDateSort === 'primary_release_date.asc' ? 'Date Ascending' : 'Date Descending'}
+            </MenuItem>
           </Select>
         </FormControl>
-        <Button color="primary" variant="contained" onClick={fetchMovies} size="large">
+        <Button color="primary" variant="contained" onClick={handleSearchButtonClick} size="large">
           Search
         </Button>
       </div>
       <br></br>
 
-      {/* Display Movies Here */}
       <SimpleGrid columns={[1, 2, 3, 5]} spacing={10}>
         {movies.map((movie, index) => (
           <Box key={index} p={4} shadow="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">

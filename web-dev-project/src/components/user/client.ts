@@ -8,8 +8,9 @@ const request = axios.create({
 
 //TODO: hook up to backend and implement in profile section
 export const updateUser = async (user: any) => {
-  // const response = await request.put(`${BACKEND_API}/${user._id}`, user);
-  // return response.data;
+  const response = await request.put(`${BACKEND_API}/update/${user._id}`, user);
+  console.log("FRONTEND UPDATING USER: ", response.data);
+  return response.data;
 };
 
 //TODO: replace current createUser function in signup page with this one

@@ -4,25 +4,21 @@ import model from "../model";
 async function createNewUser(userData: any) {
     const newUserType: UserType = userData.userType === "admin" ? UserType.ADMIN : UserType.USER;
     const newUser = new model({
-            _id: userData._id,
             username: userData.username,
             password: userData.password,
             email: userData.email,
-            firstName: userData.firstName,
-            lastName: userData.lastName,
+            firstName: "",
+            lastName: "",
             userType: newUserType,
-            profilePicLink: userData.profilePicLink,
+            profilePicLink: "",
             genreList: [],
-            favoriteMovies: [],
-            watchList: [],
-            ratedMovies: [],
             ratedMoviesId: [],
             favoriteMoviesId: [],
             watchListId: [],
     });
     try {
         const savedUser = await newUser.save();
-        console.log('User saved successfully');
+        console.log('User saved successfully: ', savedUser);
     } catch (error) {
         console.error('Error creating user:', error);
         throw error; 

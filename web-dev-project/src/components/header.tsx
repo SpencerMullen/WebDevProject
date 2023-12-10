@@ -3,13 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 import * as client from '../components/user/client';
 
-function Header({ loggedIn, setLoggedIn }: { loggedIn: boolean, setLoggedIn: (loggedIn: boolean) => void}) {
+function Header({ loggedIn, setLoggedIn, setUsername }: { loggedIn: boolean, setLoggedIn: (loggedIn: boolean) => void, setUsername: (username: string) => void }) {
     const navigate = useNavigate();
 
     const handleLogout = async () => {
-        // console.log('this worked')
-        await client.signout();
+        const response = await client.signout();
         setLoggedIn(false);
+        setUsername('Guest');
         navigate('/');
     }
     return (

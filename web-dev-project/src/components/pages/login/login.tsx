@@ -3,10 +3,10 @@ import { Link, Container, TextField, Button, Typography, Box } from '@mui/materi
 import * as client from '../../user/client'
 import { useNavigate } from 'react-router-dom';
 
-export default function Login({ setLoggedIn }: { setLoggedIn: (loggedIn: boolean) => void }) {
+export default function Login({ setLoggedIn, setUsername, username}: 
+  { setLoggedIn: (loggedIn: boolean) => void, setUsername: (username: string) => void, username: string }) {
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState<string>('')
   const [password, setPassword] = useState<string>('')
 
   const handleLogin = async (e: { preventDefault: () => void; }) => {
@@ -14,6 +14,7 @@ export default function Login({ setLoggedIn }: { setLoggedIn: (loggedIn: boolean
     try {
       await client.signin({ username, password });
       setLoggedIn(true);
+      setUsername(username);
       navigate('/profile');
     } catch (error) {
       console.log(error)
@@ -36,7 +37,6 @@ export default function Login({ setLoggedIn }: { setLoggedIn: (loggedIn: boolean
             name="username"
             autoComplete="username"
             autoFocus
-            value={username}
             onChange={e => setUsername(e.target.value)}
           />
           <TextField

@@ -9,28 +9,25 @@ export default function ProfileId() {
   const [userProfile, setUserProfile] = useState<User | null>(null);
   const [movies, setMovies] = useState<Movie[]>([]);
 
-  // Dummy fetch function - replace with actual API call
   const fetchUserProfile = async (userId: string | undefined) => {
     const response = await axios.get(`http://localhost:8081/users/${userId}`);
-    console.log(response.data);
-    setUserProfile(response.data);
-    await fetchMovies();
-  };
+    const profile = response.data as User;
+    setUserProfile(profile);
+    
+    if (!profile) return;
 
-  // uses the likedMovies array from the user profile to fetch the movie data
-  const fetchMovies = async () => {
-    if (userProfile === null) return;
+    profile.likedMovies.forEach(async (movieId) => {
+      console.log(`fetching movie ${movieId}`);
+      const response = await axios.get(`http://localhost:8081/searchById/${movieId}`)
 
-    userProfile.likedMovies.map(async (movieId) => (
-      await axios.get(`http://localhost:8081/movies/${movieId}`)
-        .then((response) => {
-          setMovies([...movies, response.data]);
-        })
-    ));
+      if (response.status !== 200) return;
+      setMovies((movies) => [...movies, response.data]);
+    });
   };
 
   useEffect(() => {
     fetchUserProfile(id);
+    // console.log('user profile fetched');
   }, [id]);
 
   if (!userProfile) {
@@ -47,19 +44,11 @@ export default function ProfileId() {
 
         <Grid item xs={12}>
           <Typography variant="h5">Top 3 Rated Movies</Typography>
-          {userProfile.likedMovies.map((movie, index) => (
+          {movies.map((movie, index) => (
             <Paper key={index} style={{ padding: '10px', marginTop: '10px' }}>
-              <Typography>{movie}</Typography>
+              <Typography>{movie.title} </Typography>
             </Paper>
           ))}
-          
-          {/** this should be the final code
-            movies.slice(0,3).map((movie, index) => (
-              <Paper key={index} style={{ padding: '10px', marginTop: '10px' }}>
-                <Typography>{movie.title}</Typography>
-              </Paper>
-            ))
-          */}
         </Grid>
 
         {/* Additional sections can be added here */}

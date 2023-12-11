@@ -43,7 +43,6 @@ export default function Profile() {
   useEffect(() => {
     const getUser = async () => {
       const userInfo = await client.getCurrentUser();
-      console.log("userinfo: ", userInfo);
       if (userInfo) {
         setUserData({
           _id: userInfo._id,
@@ -60,7 +59,6 @@ export default function Profile() {
         });
       }
     }
-    console.log("userData: ", userData);
     getUser();
   }, []);
 

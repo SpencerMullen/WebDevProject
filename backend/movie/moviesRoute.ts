@@ -1,5 +1,4 @@
 import express, { Request, Response } from 'express';
-import { Movie } from '../types';
 import searchByParam from './Search/searchByParam';
 import searchByGenre from './Search/searchByGenre';
 import getGenreOptions from './Genre/getGenreOptions';
@@ -16,16 +15,7 @@ const MoviesRoutes = (app: any) => {
             const title = typeof req.query.title === 'string' ? req.query.title : '';
             const sort = typeof req.query.sort === 'string' ? req.query.sort : '';
             searchByParam(genre, title, sort).then((movies) => {
-                let movieMap = movies.map((movie: any) => ({
-                    title: movie.title,
-                    image: movie.image,
-                    id: movie.id
-                }))
-
-                console.log('mapped movies');
-                console.log(movieMap[0]);
-                res.send(movieMap);
-                console.log(`movies Size: ${movies.length}`);
+                res.send(movies);
             });
         } catch (error: any) {
             res.status(500).send(error.message);
@@ -40,7 +30,6 @@ const MoviesRoutes = (app: any) => {
         } catch (error: any) {
             res.status(500).send(error.message);
         }
-        console.log('movies route end')
     });
     app.get("/genres/movies", (req: Request, res: Response) => {
         try {
@@ -59,7 +48,6 @@ const MoviesRoutes = (app: any) => {
         } catch (error: any) {
             res.status(500).send(error.message);
         }
-        console.log('movies route end')
     });
     app.get("/searchById/:id", (req: Request, res: Response) => {
         const id = req.params.id;
@@ -75,27 +63,26 @@ const MoviesRoutes = (app: any) => {
             res.status(500).send(error.message);
         }
     });
-    app.get("/movies/recommendations", async (req: Request, res: Response) => {
+    app.post("/movies/recommendations", async (req: Request, res: Response) => {
         try {
             //make sure to convert Id to string
-            let id = "0";
-            // get user genres
-            // const movies = getUserData(id).then((moviesGenres) => {
-            //    searchByGenre(movieGenres);
-            // });
-            const userGenres = await findUserById(id); // TODO: make sure we can get the user's genres like this: string[]
-            const temporaryUserGenres = ["28", "12", "16"]; // TODO: remove this line
-            // Now, search for movies based on these genres
-            // Assuming searchByGenre can handle an array of genres
-            const recommendedMovies = await searchByGenre(temporaryUserGenres);
-            // console.log("Backend: ", recommendedMovies);
-            res.status(200).send(recommendedMovies);
-            console.log('User recommended movies');
+            let user = null
+            const session = req.session;
+            if (session.currentUser) {
+                user = await findUserById(session.currentUser.id);
+            } else {
+                console.log("User not signed in");
+            }
+
+            if (user) {
+                const userGenres = user.genreList;
+                const recommendedMovies = await searchByGenre(userGenres);
+                res.status(200).send(recommendedMovies);
+            }
+
         } catch (error: any) {
             res.status(500).send(error.message);
         }
-        console.log('movies route end')
     });
 }
-
 export default MoviesRoutes;

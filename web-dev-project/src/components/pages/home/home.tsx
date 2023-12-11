@@ -1,25 +1,18 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
-import { Box, Image, Text, Button, SimpleGrid, AspectRatio } from "@chakra-ui/react";
+import { Box, Image, Text, SimpleGrid, AspectRatio } from "@chakra-ui/react";
 import genreIdToName from "../../../utils/genreIdToName";
+import * as client from '../../user/client'
 
 export default function Home({ loggedIn, username }: { loggedIn: boolean, username: string }) {
 
-    const [users, setUsers] = useState([])
     const [movies, setMovies] = useState([])
-
-    const getUser = async (userId: number) => {
-        const response = await axios.get(`http://localhost:8081/users/${userId}`)
-        console.log(response.data)
-    }
 
     const getMovies = async () => {
 
         if (loggedIn) {
-            console.log("confirming logged in");
-            const response = await axios.get('http://localhost:8081/movies/recommendations')
-            console.log(response);
-            setMovies(response.data)
+            const response = await client.getRecommendations();
+            setMovies(response)
         } else {
             const response = await axios.get('http://localhost:8081/movies/popular')
             setMovies(response.data)
@@ -27,7 +20,6 @@ export default function Home({ loggedIn, username }: { loggedIn: boolean, userna
     }
     useEffect(() => {
         getMovies();
-        console.log(movies);
     }, []); 
 
 
@@ -53,11 +45,9 @@ export default function Home({ loggedIn, username }: { loggedIn: boolean, userna
                                 <Text mt={2} fontSize="xl" fontWeight="bold" lineHeight="tight" isTruncated>
                                     {movie.title}
                                 </Text>
-                                <Text color="gray.600">Rating: {movie.vote_average} ({movie.vote_count} votes)</Text>
-                                <Text color="gray.600">Popularity: {movie.popularity}</Text>
-                                <Text color="gray.600">Release Date: {movie.release_date}</Text>
-                                {/* <Text mt={2} color="gray.500">Genres: {genreIdToName(movie.genre)}</Text> */}
-                                <Button mt={4} colorScheme="teal">Like</Button>
+                                <Text mt={2} color="gray.500">Genres: {genreIdToName(movie.genre)}</Text>
+                                <Text color="gray.600">Rating: {movie.rating} ({movie.num_rating} votes)</Text>
+                                <Text color="gray.600">Release Date: {movie.date}</Text>
                             </Box>
                         </Box>
                     ))}

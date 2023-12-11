@@ -32,12 +32,10 @@ export default function ProfileId() {
       }
       const currentUser = await client.getCurrentUser();
       if (currentUser) {
-        // console.log("current user: ", currentUser);
         setIsCurrentUserAdmin(currentUser.userType === 'ADMIN');
       }
     }
     getUserProfile();
-    // console.log('user profile fetched');
   }, []);
 
   const handleDeleteUser = async () => {
@@ -45,8 +43,9 @@ export default function ProfileId() {
     navigate('/home');
   }
 
+
   if (!userProfile) {
-    return <div>Loading...</div>; // or any other loading state representation
+    return <div>Loading...</div>;
   }
 
   return (
@@ -63,13 +62,6 @@ export default function ProfileId() {
         </Grid>
 
         <Grid item xs={12}>
-          {/*<Typography variant="h5">Top 3 Rated Movies</Typography>
-          {movies.map((movie, index) => (
-            <Paper key={index} style={{ padding: '10px', marginTop: '10px' }}>
-              <Typography>{movie.title} </Typography>
-            </Paper>
-          ))}*/}
-
           <Typography variant="h5">About Me</Typography>
           <Typography>Username: {username}</Typography>
           <Typography>Email: {email}</Typography>

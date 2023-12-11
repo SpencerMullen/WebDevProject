@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
+import { Box, Image, Text, SimpleGrid, AspectRatio } from "@chakra-ui/react";
+import { Button } from '@mui/material';
 import { Box, Image, Text, Button, SimpleGrid, AspectRatio } from "@chakra-ui/react";
 import genreIdToName from "../../../utils/genreIdToName";
 

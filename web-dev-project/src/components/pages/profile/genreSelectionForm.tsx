@@ -33,6 +33,7 @@ const GenreSelectionForm: React.FC<GenreSelectionFormProps> = ({ selectedGenres,
     };
     fetchGenres();
   }, []);
+  
   const handleGenreClick = (genre: string) => {
     if (selectedGenres.includes(genre)) {
       setSelectedGenres(selectedGenres.filter((selectedGenre) => selectedGenre !== genre));

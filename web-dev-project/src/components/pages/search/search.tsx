@@ -51,7 +51,7 @@ export default function Search() {
       .filter(genre => selected.includes(genre.id))
       .map(genre => genre.name);
     return selectedGenreNames.join(', ');
-          
+  }
   // Handlers for search input, genre, and sort by changes
   const handleSearchChange = (event) => {
     setParams(event.target.value);
@@ -64,10 +64,6 @@ export default function Search() {
     if (genreIds.length <= 5) {
       setSelectedGenres(genreIds);
     }
-  };
-
-  const handleSearchChange = (event) => {
-    setParams(event.target.value);
   };
 
   const handleSortChange = (event) => {

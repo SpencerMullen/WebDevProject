@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
-import { Box, Image, Text, SimpleGrid, AspectRatio } from "@chakra-ui/react";
-import { Button } from '@mui/material';
 import { Box, Image, Text, Button, SimpleGrid, AspectRatio } from "@chakra-ui/react";
 import genreIdToName from "../../../utils/genreIdToName";
 
@@ -58,7 +56,7 @@ export default function Home({ loggedIn, username }: { loggedIn: boolean, userna
                                 <Text color="gray.600">Rating: {movie.vote_average} ({movie.vote_count} votes)</Text>
                                 <Text color="gray.600">Popularity: {movie.popularity}</Text>
                                 <Text color="gray.600">Release Date: {movie.release_date}</Text>
-                                <Text mt={2} color="gray.500">Genres: {genreIdToName(movie.genre)}</Text>
+                                {/* <Text mt={2} color="gray.500">Genres: {genreIdToName(movie.genre)}</Text> */}
                                 <Button mt={4} colorScheme="teal">Like</Button>
                             </Box>
                         </Box>

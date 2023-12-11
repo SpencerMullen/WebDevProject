@@ -20,7 +20,7 @@ export const updateUser = async (user: any) => {
 // };
 
 //TODO: need to evaluate if needed for this project... probably do for updating a user?
-export const findUserById = async (id: number) => {
+export const findUserById = async (id: any) => {
   const response = await request.get(`${BACKEND_API}/${id}`);
   console.log("FRONTEND FINDING USER BY ID: ", response.data);
   return response.data;

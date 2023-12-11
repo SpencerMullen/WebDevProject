@@ -17,10 +17,11 @@ const UsersRoutes = (app: any) => {
             res.status(400).json({ message: "Unable to find users" });
         }
     });
-    app.get('/users/:id', (req: Request, res: Response) => {
+    app.get('/users/:id', async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
-            const user = findUserById(id);
+            const user = await findUserById(id);
+            console.log("FIND USER BY ID BACKEND: ", user);
             res.status(200).json(user);
         } catch (error) {
             res.status(400).json({ message: "Unable to find user" });
@@ -47,12 +48,8 @@ const UsersRoutes = (app: any) => {
         try {
             const { id } = req.params;
             const newUser = req.body;
-            console.log("ID: ", id);
-            console.log("BACKEND UPDATING USER: ", newUser, " ID: ", id);
             const status = await updateUser(id, newUser);
-            console.log("MADE IT BACK TO ROUTE: ");
             const currentUser = await findUserById(id);
-            console.log("CURRENT USER: ", currentUser);
         } catch (error) {
             res.status(400).json({ message: "Unable to update user" });
         }

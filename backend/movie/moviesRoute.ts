@@ -16,16 +16,7 @@ const MoviesRoutes = (app: any) => {
             const title = typeof req.query.title === 'string' ? req.query.title : '';
             const sort = typeof req.query.sort === 'string' ? req.query.sort : '';
             searchByParam(genre, title, sort).then((movies) => {
-                let movieMap = movies.map((movie: any) => ({
-                    title: movie.title,
-                    image: movie.image,
-                    id: movie.id
-                }))
-
-                console.log('mapped movies');
-                console.log(movieMap[0]);
-                res.send(movieMap);
-                console.log(`movies Size: ${movies.length}`);
+                res.send(movies);
             });
         } catch (error: any) {
             res.status(500).send(error.message);
@@ -83,18 +74,19 @@ const MoviesRoutes = (app: any) => {
             // const movies = getUserData(id).then((moviesGenres) => {
             //    searchByGenre(movieGenres);
             // });
-            const userGenres = await findUserById(id); // TODO: make sure we can get the user's genres like this: string[]
+            const currentUserId = req.session.currentUser;
+            console.log('currentUserId: ', currentUserId);
+            // const userGenres = await findUserById(id); // TODO: make sure we can get the user's genres like this: string[]
             const temporaryUserGenres = ["28", "12", "16"]; // TODO: remove this line
             // Now, search for movies based on these genres
             // Assuming searchByGenre can handle an array of genres
+
             const recommendedMovies = await searchByGenre(temporaryUserGenres);
-            // console.log("Backend: ", recommendedMovies);
             res.status(200).send(recommendedMovies);
-            console.log('User recommended movies');
         } catch (error: any) {
             res.status(500).send(error.message);
         }
-        console.log('movies route end')
+        console.log('movies recommendations route end');
     });
 }
 

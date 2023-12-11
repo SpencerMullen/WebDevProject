@@ -17,12 +17,13 @@ async function fetchAllMovies(): Promise<Movie[]> {
         // console.log(data);
         return data.results.map((movie: any) => ({
             title: movie.title,
-            genre: movie.genre,
-            year: movie.year,
-            rating: movie.rating,
+            genre: movie.genre_ids,
+            date: movie.release_date,
+            num_rating: movie.vote_count,
+            rating: movie.vote_average,
             director: movie.director,
             description: movie.description,
-            image: movie.image,
+            image: movie.poster_path,
             id: movie.id
         }));
     } catch (error) {

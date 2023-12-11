@@ -53,11 +53,9 @@ export default function Home({ loggedIn, username }: { loggedIn: boolean, userna
                                 <Text mt={2} fontSize="xl" fontWeight="bold" lineHeight="tight" isTruncated>
                                     {movie.title}
                                 </Text>
-                                <Text color="gray.600">Rating: {movie.vote_average} ({movie.vote_count} votes)</Text>
-                                <Text color="gray.600">Popularity: {movie.popularity}</Text>
-                                <Text color="gray.600">Release Date: {movie.release_date}</Text>
-                                {/* <Text mt={2} color="gray.500">Genres: {genreIdToName(movie.genre)}</Text> */}
-                                <Button mt={4} colorScheme="teal">Like</Button>
+                                <Text mt={2} color="gray.500">Genres: {genreIdToName(movie.genre)}</Text>
+                                <Text color="gray.600">Rating: {movie.rating} ({movie.num_rating} votes)</Text>
+                                <Text color="gray.600">Release Date: {movie.date}</Text>
                             </Box>
                         </Box>
                     ))}

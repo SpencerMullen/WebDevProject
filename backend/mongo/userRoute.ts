@@ -1,12 +1,9 @@
-import db from '../mockDB/index';
 import { Request, Response } from 'express';
 import createNewUser from './routes/createNewUser';
-import editUserData from './routes/editUserData';
-import { findUserById, findAllUsers, findUserByUsername } from './routes/findUsers';
+import { findUserById, findAllUsers } from './routes/findUsers';
 import signIn from './routes/signIn';
 import { updateUser } from './routes/updateUser';
-import { transformToUserType } from '../util/transformUserType';
-import model from './model';
+
 
 const UsersRoutes = (app: any) => {
     app.get('/users', async (req: Request, res: Response) => {
@@ -60,7 +57,6 @@ const UsersRoutes = (app: any) => {
             const response = await createNewUser(userData);
             console.log("BACKEND SIGNING UP");
             res.status(200).send('User created successfully');
-            // console.log('User created successfully')
         } catch (error: any) {
             res.status(500).send(error.message);
         }

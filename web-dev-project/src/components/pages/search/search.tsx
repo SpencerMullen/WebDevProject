@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { TextField, Select, MenuItem, FormControl, InputLabel, Button, Checkbox, ListItemText, OutlinedInput } from '@mui/material';
+import { TextField, Select, MenuItem, FormControl, InputLabel, Button, Checkbox, ListItemText, OutlinedInput, Typography } from '@mui/material';
 import axios from 'axios';
 import { Movie } from '../../../types';
 import { Box, Image, Text, SimpleGrid, AspectRatio } from "@chakra-ui/react";
+import genreIdToName from "../../../utils/genreIdToName";
 
 export default function Search() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -11,7 +12,7 @@ export default function Search() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [genreData, setGenreData] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const [sort, setSort] = useState('popularity.desc');
+  const [sort, setSort] = useState('');
 
   const fetchMovies = async () => {
     const response = await axios.get(`http://localhost:8081/search`, { params: searchParams });
@@ -157,11 +158,9 @@ export default function Search() {
               <Text mt={2} fontSize="xl" fontWeight="bold" lineHeight="tight" isTruncated>
                 {movie.title}
               </Text>
-              <Text mt={2} color="gray.500">Genre: {movie.genre}</Text>
-              <Text color="gray.600">Rating: {movie.vote_average} ({movie.vote_count} votes)</Text>
-              <Text color="gray.600">Popularity: {movie.popularity}</Text>
-              <Text color="gray.600">Release Date: {movie.release_date}</Text>
-              <Button variant="contained" color="primary">Like</Button>
+              <Text mt={2} color="gray.500">Genres: {genreIdToName(movie.genre)}</Text>
+              <Text color="gray.600">Rating: {movie.rating} ({movie.num_rating} votes)</Text>
+              <Text color="gray.600">Release Date: {movie.date}</Text>
             </Box>
           </Box>
         ))}

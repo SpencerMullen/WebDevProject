@@ -85,6 +85,7 @@ const genres: Genre[] = [
 
 // Function to convert genre IDs to genre names
 export default function genreIdToName(genreIds: number[]): string {
+    if (genreIds === undefined || genreIds.length === 0) return "Unknown";
     const genreMap = new Map<number, string>(genres.map(genre => [genre.id, genre.name]));
     const genreNames =  genreIds.map(id => genreMap.get(id) || "Unknown");
     return genreNames.join(", ");

@@ -6,14 +6,14 @@ import './GenreSelectionForm.css';
 
 interface GenreSelectionFormProps {
   selectedGenres: string[];
-  setSelectedGenres: React.Dispatch<React.SetStateAction<string[]>>;
+  setSelectedGenres: (genres: string[]) => void;
 }
 const GenreSelectionForm: React.FC<GenreSelectionFormProps> = ({ selectedGenres, setSelectedGenres }) => {
   const [genreData, setGenreData] = useState([]);
   // data is stored:  genreId: genreName
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
 
   const toggleShow = () => {
     setShow(!show);

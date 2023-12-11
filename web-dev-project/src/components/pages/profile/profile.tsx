@@ -1,66 +1,104 @@
 import { useState, useEffect } from 'react';
-import { Container, Typography, Avatar, TextField, Button, Grid, Paper } from '@mui/material';
+import { Container, Typography, Avatar, TextField, Button, Grid, Paper, Input } from '@mui/material';
 import GenreSelectionForm from './genreSelectionForm';
 import * as client from '../../user/client'
 
 export default function Profile() {
-  const [username, setUsername] = useState('user'); // Replace with actual user data
-  const [email, setEmail] = useState('user@example.com'); // Replace with actual user data
-  const [profilePic, setProfilePic] = useState('https://via.placeholder.com/175');
-  const [newPicUrl, setNewPicUrl] = useState('');
-  const [topRatedMovies, setTopRatedMovies] = useState(['Movie 1', 'Movie 2', 'Movie 3']);
+  const [userData, setUserData] = useState<any>({
+    _id: "",
+    username: "",
+    email: "",
+    firstName: "",
+    lastName: "",
+    userType: "",
+    profilePicLink: "",
+    genreList: [],
+    ratedMovies: [],
+    favoriteMovies: [],
+    watchListId: [],
+  });
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-
-  //TODO: handle submit form to update the user's information - need to pull data from genreSelectionForm.tsx
-  const handlePicChange = () => {
-    if (newPicUrl) {
-      setProfilePic(newPicUrl);
-      setNewPicUrl('');
-    }
-  };
-
-  const updateUser = (data: any) => {
-    console.log('Updating user with data:', data);
-    client.updateUser(data);
+  const handleSelectGenres = async (genres: string[]) => {
+    setSelectedGenres(genres);
+    const genreIds = genres.map((genre) => genre.id);
+    setUserData({ ...userData, genreList: genreIds });
   }
+
+  const handleUpdateUsername = (event: any) => {
+    setUserData({ ...userData, username: event.target.value });
+  }
+
+  const handleUpdateEmail = (event: any) => {
+    setUserData({ ...userData, email: event.target.value });
+  }
+
+  const handleUpdateFirstName = (event: any) => {
+    setUserData({ ...userData, firstName: event.target.value });
+  }
+
+  const handleUpdateLastName = (event: any) => {
+    setUserData({ ...userData, lastName: event.target.value });
+  }
+
   useEffect(() => {
-    const data = {
-      profilePic,
-      selectedGenres,
-      // Add other user data that needs to be updated
-    };
-    updateUser(data);
-  }, [profilePic, selectedGenres]);
+    const getUser = async () => {
+      const userInfo = await client.getCurrentUser();
+      console.log("userinfo: ", userInfo);
+      if (userInfo) {
+        setUserData({
+          _id: userInfo._id,
+          username: userInfo.username,
+          email: userInfo.email,
+          firstName: userInfo.firstName,
+          lastName: userInfo.lastName,
+          userType: userInfo.userType,
+          profilePicLink: userInfo.profilePicLink,
+          genreList: userInfo.genreList,
+          ratedMovies: userInfo.ratedMoviesId,
+          favoriteMovies: userInfo.favoriteMoviesId,
+          watchListId: userInfo.watchList,
+        });
+      }
+    }
+    console.log("userData: ", userData);
+    getUser();
+  }, []);
+
+  const handleUpdateUser = async () => {
+    await client.updateUser(userData);
+  }
+
   return (
     <Container maxWidth="sm">
       <Grid container spacing={4} justifyContent="center" style={{ marginTop: '20px' }}>
         <Grid item>
-          <Avatar src={profilePic} alt="Profile" style={{ width: 175, height: 175 }} />
-          <Typography variant="h4" style={{ marginTop: '20px'}}>{username}</Typography>
-          <Typography variant="h6">{email}</Typography>
+          <Avatar src={userData.profilePicLink} alt="Profile" style={{ width: 175, height: 175 }} />
+          <Button variant="contained" component="label" style={{ marginTop: '20px' }} onClick={handleUpdateUser}>
+            Update User</Button>
+        </Grid>
+        <Grid item>
+          <Typography variant="h4">Username:<TextField id="outlined-basic"
+            variant="outlined" value={userData.username} onChange={handleUpdateUsername} />
+          </Typography>
+        </Grid>
+        <Grid item>
+          <Typography variant="h4">Email:<TextField id="outlined-basic" onChange={handleUpdateEmail}
+            variant="outlined" value={userData.email} /> </Typography>
+        </Grid>
+        <Grid item>
+          <Typography variant='h4'>First Name:<TextField id="outlined-basic" variant="outlined" onChange={handleUpdateFirstName}
+            value={userData.firstName} /></Typography>
+          <Typography variant='h4'>Last Name:<TextField id="outlined-basic" variant="outlined" onChange={handleUpdateLastName}
+            value={userData.lastName} /></Typography>
+        </Grid>
+        <Grid item>
+          <Typography variant="h4">User Type: {userData.userType}</Typography>
+        </Grid>
+        <Grid item>
+          <Typography variant="h4">Favorite Genres</Typography>
+          <GenreSelectionForm selectedGenres={selectedGenres} setSelectedGenres={handleSelectGenres} />
         </Grid>
 
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            label="New Profile Picture URL"
-            value={newPicUrl}
-            onChange={(e) => setNewPicUrl(e.target.value)}
-            variant="outlined"
-          />
-          <Button variant="contained" color="primary" onClick={handlePicChange} style={{ marginTop: '10px' }}>
-            Update Picture
-          </Button>
-        </Grid>
-        <GenreSelectionForm selectedGenres={selectedGenres} setSelectedGenres={setSelectedGenres} />
-        <Grid item xs={12}>
-          <Typography variant="h5">Top 3 Rated Movies</Typography>
-          {topRatedMovies.map((movie, index) => (
-            <Paper key={index} style={{ padding: '10px', marginTop: '10px' }}>
-              <Typography>{movie}</Typography>
-            </Paper>
-          ))}
-        </Grid>
       </Grid>
     </Container>
   )

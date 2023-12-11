@@ -12,14 +12,8 @@ export default function Search() {
   const [genreData, setGenreData] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [sort, setSort] = useState('popularity.desc');
-  const [searchCriteria, setSearchCriteria] = useState({
-    genre: '',
-    title: '',
-    sort: 'popularity.desc'
-  });
 
   const fetchMovies = async () => {
-    console.log("Fetch movies: ", searchParams);
     const response = await axios.get(`http://localhost:8081/search`, { params: searchParams });
     console.log(response.data);
     setMovies(response.data);
@@ -57,6 +51,11 @@ export default function Search() {
       .filter(genre => selected.includes(genre.id))
       .map(genre => genre.name);
     return selectedGenreNames.join(', ');
+          
+  // Handlers for search input, genre, and sort by changes
+  const handleSearchChange = (event) => {
+    setParams(event.target.value);
+
   };
 
   const handleGenreChange = (event) => {
@@ -82,6 +81,9 @@ export default function Search() {
 
   return (
     <div>
+      <Typography variant="subtitle1" style={{ marginLeft: 10, marginTop: 10 }}>
+        Search movies by title, or discover new ones by selecting genres and sorting options.
+      </Typography>
       <div
         style={{
           marginLeft: 10,

@@ -4,7 +4,7 @@ export const users = [
         "password": "admin",
         "email": "admin@admin.com",
         "role": "admin",
-        "likedMovies": [8,2,3,4,5,9,7,1],
+        "likedMovies": [238],
         "likedShows": [63, 88, 12, 45, 23],
         "id": 1
     },

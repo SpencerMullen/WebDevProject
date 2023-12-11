@@ -9,7 +9,6 @@ export default async function searchByParam(genre: string, title: string, sort: 
     } else {
         url = `https://api.themoviedb.org/3/search/movie?query=${title}&include_adult=false&language=en-US&page=1`;
     }
-    console.log(url);
     const optionsOld = {
         method: 'GET',
         url: url,
@@ -18,15 +17,15 @@ export default async function searchByParam(genre: string, title: string, sort: 
             Authorization: 'Bearer ' + process.env.MOVIE_API_KEY
         }
     };
-    console.log(optionsOld.url);
     try {
         const response = await axios.request(optionsOld);;
         const data = response.data;
         return data.results.map((movie: any) => ({
             title: movie.title,
-            genre: movie.genre,
-            year: movie.year,
-            rating: movie.rating,
+            genre: movie.genre_ids,
+            date: movie.release_date,
+            num_rating: movie.vote_count,
+            rating: movie.vote_average,
             director: movie.director,
             description: movie.description,
             image: movie.poster_path,

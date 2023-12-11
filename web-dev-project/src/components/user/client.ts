@@ -27,10 +27,9 @@ export const findUserById = async (id: any) => {
 };
 
 //Could use it in profile section... or for admins to delete other users....? might need a table view or something to delete users
-export const deleteUser = async (user: any) => {
-  // const response = await request.delete(
-  //   `${BACKEND_API}/${user._id}`);
-  // return response.data;
+export const deleteUser = async (id: any) => {
+  const response = await request.delete(`${BACKEND_API}/${id}`);
+  return response.data;
 };
 
 export const signin = async (credentials: any) => {

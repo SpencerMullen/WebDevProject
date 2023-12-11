@@ -104,6 +104,16 @@ const UsersRoutes = (app: any) => {
             res.status(400).json({ message: "Error in getting user info" });
         }
     });
+    app.delete('/users/:id', async (req: Request, res: Response) => {
+        try {
+            const { id } = req.params;
+            console.log("DELETING USER: ", id);
+            const status = await model.findByIdAndDelete(id);
+            res.status(200).json(status);
+        } catch (error) {
+            res.status(400).json({ message: "Unable to delete user" });
+        }
+    });
 
 }
 

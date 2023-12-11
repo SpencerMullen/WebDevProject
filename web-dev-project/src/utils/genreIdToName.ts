@@ -91,6 +91,6 @@ export default function genreIdToName(genreIds: number[]): string {
 }
 
 // Example usage
-const genreIds = [28, 12, 99];
+/*const genreIds = [28, 12, 99];
 const genreNames = genreIdToName(genreIds);
-console.log(genreNames); // Output: ['Action', 'Adventure', 'Documentary']
+console.log(genreNames); // Output: ['Action', 'Adventure', 'Documentary']*/

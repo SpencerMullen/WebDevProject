@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Container, Typography, Avatar, Grid, Paper } from '@mui/material';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Container, Typography, Avatar, Grid, Paper, Button } from '@mui/material';
 import { User, Movie } from '../../../types';
 import * as client from '../../../components/user/client';
 import genreIdToName from '../../../utils/genreIdToName';
 
 export default function ProfileId() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [userProfile, setUserProfile] = useState<User | null>(null);
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -14,6 +15,7 @@ export default function ProfileId() {
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
   const [favoriteGenres, setFavoriteGenres] = useState<string[]>([]);
+  const [isCurrentUserAdmin, setIsCurrentUserAdmin] = useState<boolean>(false);
 
   useEffect(() => {
     const getUserProfile = async () => {
@@ -23,12 +25,25 @@ export default function ProfileId() {
       setEmail(userInfo.email);
       setFirstName(userInfo.firstName);
       setLastName(userInfo.lastName);
-      const favGenresString = userInfo.genreList.map((genreId) => genreIdToName(genreId));
-      setFavoriteGenres(favGenresString);
+      if (userInfo.genreList.length > 0) {
+        let favGenresString = userInfo.genreList.map((genreId) => parseInt(genreId));
+        favGenresString = genreIdToName(favGenresString);
+        setFavoriteGenres(favGenresString);
+      }
+      const currentUser = await client.getCurrentUser();
+      if (currentUser) {
+        // console.log("current user: ", currentUser);
+        setIsCurrentUserAdmin(currentUser.userType === 'ADMIN');
+      }
     }
     getUserProfile();
     // console.log('user profile fetched');
-  }, [id]);
+  }, []);
+
+  const handleDeleteUser = async () => {
+    await client.deleteUser(id);
+    navigate('/home');
+  }
 
   if (!userProfile) {
     return <div>Loading...</div>; // or any other loading state representation
@@ -40,6 +55,11 @@ export default function ProfileId() {
         <Grid item>
           <Avatar src={userProfile.profilePic} alt="Profile" style={{ width: 175, height: 175 }} />
           <Typography variant="h4" style={{ marginTop: '20px' }}>{userProfile.username}</Typography>
+          {/*delete user button if current user is admin*/}
+          {isCurrentUserAdmin && (
+            <Button variant="contained" component="label" style={{ marginTop: '20px' }} onClick={handleDeleteUser}>
+              Delete User</Button>
+          )}
         </Grid>
 
         <Grid item xs={12}>

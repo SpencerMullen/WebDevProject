@@ -1,6 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-// import * as dotenv from 'dotenv';
-
 import Details from './components/pages/details/details'
 import Home from './components/pages/home/home'
 import Login from './components/pages/login/login'
@@ -34,24 +32,21 @@ function App() {
     checkLoggedIn();
     getUsername();
   }, []);
-
-
-  // dotenv.config();
   return (
-    <BrowserRouter>
-      <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUsername={setUsername} />
-      <Routes>
-        <Route path="/" element={<Home username={username} loggedIn={loggedIn} />} />
-        <Route path="/home" element={<Home username={username} loggedIn={loggedIn} />} />
-        <Route path="/details" element={<Details />} />
-        <Route path="/login" element={<Login setLoggedIn={setLoggedIn} setUsername={setUsername} username={username} />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/profile/:id" element={<ProfileId />} />
-        <Route path="/search" element={<Search />} />
-      </Routes>
-      <Footer />
-    </BrowserRouter>
+      <BrowserRouter>
+        <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUsername={setUsername} />
+        <Routes>
+          <Route path="/" element={<Home username={username} loggedIn={loggedIn} />} />
+          <Route path="/home" element={<Home username={username} loggedIn={loggedIn} />} />
+          <Route path="/details" element={<Details />} />
+          <Route path="/login" element={<Login setLoggedIn={setLoggedIn} setUsername={setUsername} username={username} />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:id" element={<ProfileId />} />
+          <Route path="/search" element={<Search />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
   );
 }
 

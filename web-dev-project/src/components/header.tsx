@@ -18,7 +18,7 @@ function Header({ loggedIn, setLoggedIn, setUsername }: { loggedIn: boolean, set
         navigate('/');
     }
     return (
-        <AppBar position="static" sx={{ width: '100%', marginBottom: '20px', marginTop: '0px', height: '80px' }}>
+        <AppBar position="static" sx={{ width: '100%', marginBottom: '20px', marginTop: '0px', height: '80px', backgroundColor: 'teal' }}>
             <Toolbar>
             <LocalMoviesIcon/>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontFamily: 'Pacifico', fontSize: '2rem' }}>

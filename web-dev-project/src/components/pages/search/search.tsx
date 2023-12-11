@@ -24,7 +24,6 @@ export default function Search() {
     try {
       const response = await axios.get('http://localhost:8081/genres/movies')
       setGenreData(response.data);
-      console.log(response)
     } catch (e) {
       console.error('Error fetching genres:', e);
     }

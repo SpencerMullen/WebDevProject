@@ -16,7 +16,6 @@ export default function Register() {
 
     try {
       await client.signup({ username: username, email: email, password: password, userType: userType })
-      console.log("Successfully sent user data to backend")
       navigate('/login');
     } catch (error) {
       console.log(error)

@@ -1,25 +1,18 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
-import { Box, Image, Text, Button, SimpleGrid, AspectRatio } from "@chakra-ui/react";
+import { Box, Image, Text, SimpleGrid, AspectRatio } from "@chakra-ui/react";
 import genreIdToName from "../../../utils/genreIdToName";
+import * as client from '../../user/client'
 
 export default function Home({ loggedIn, username }: { loggedIn: boolean, username: string }) {
 
-    const [users, setUsers] = useState([])
     const [movies, setMovies] = useState([])
-
-    const getUser = async (userId: number) => {
-        const response = await axios.get(`http://localhost:8081/users/${userId}`)
-        console.log(response.data)
-    }
 
     const getMovies = async () => {
 
         if (loggedIn) {
-            console.log("confirming logged in");
-            const response = await axios.get('http://localhost:8081/movies/recommendations')
-            console.log(response);
-            setMovies(response.data)
+            const response = await client.getRecommendations();
+            setMovies(response)
         } else {
             const response = await axios.get('http://localhost:8081/movies/popular')
             setMovies(response.data)
@@ -27,7 +20,6 @@ export default function Home({ loggedIn, username }: { loggedIn: boolean, userna
     }
     useEffect(() => {
         getMovies();
-        console.log(movies);
     }, []); 
 
 

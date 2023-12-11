@@ -16,7 +16,6 @@ async function searchByGenre(genre: string[]) {
     };
 
     try {
-        // console.log('requesting movies by genre...');
         const response = await axios.request(optionsOld);;
         const data = response.data;
         return data.results.map((movie: any) => ({

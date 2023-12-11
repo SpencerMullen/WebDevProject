@@ -29,7 +29,7 @@ const UsersRoutes = (app: any) => {
         try {
             const session = req.session;
             if (session.currentUser) {
-                console.log("Current user: ", session.currentUser);
+                console.log("Session: ", session.currentUser.id)
                 const user = await findUserById(session.currentUser.id);
                 res.json(user);
             } else {
@@ -100,7 +100,6 @@ const UsersRoutes = (app: any) => {
             res.status(400).json({ message: "Error in getting user info" });
         }
     });
-
 }
 
 export default UsersRoutes;

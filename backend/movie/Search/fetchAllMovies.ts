@@ -14,7 +14,6 @@ async function fetchAllMovies(): Promise<Movie[]> {
     try {
         const response = await axios.request(options);
         const data = response.data;
-        // console.log(data);
         return data.results.map((movie: any) => ({
             title: movie.title,
             genre: movie.genre_ids,

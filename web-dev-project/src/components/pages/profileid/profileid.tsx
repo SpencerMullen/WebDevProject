@@ -27,7 +27,6 @@ export default function ProfileId() {
       setFavoriteGenres(favGenresString);
     }
     getUserProfile();
-    // console.log('user profile fetched');
   }, [id]);
 
   if (!userProfile) {

@@ -90,8 +90,3 @@ export default function genreIdToName(genreIds: number[]): string {
     const genreNames =  genreIds.map(id => genreMap.get(id) || "Unknown");
     return genreNames.join(", ");
 }
-
-// Example usage
-const genreIds = [28, 12, 99];
-const genreNames = genreIdToName(genreIds);
-console.log(genreNames); // Output: ['Action', 'Adventure', 'Documentary']

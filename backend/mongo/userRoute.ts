@@ -3,7 +3,7 @@ import createNewUser from './routes/createNewUser';
 import { findUserById, findAllUsers } from './routes/findUsers';
 import signIn from './routes/signIn';
 import { updateUser } from './routes/updateUser';
-
+import model from './model';
 
 const UsersRoutes = (app: any) => {
     app.get('/users', async (req: Request, res: Response) => {

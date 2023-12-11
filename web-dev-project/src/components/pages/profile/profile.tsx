@@ -24,6 +24,17 @@ export default function Profile() {
     setUserData({ ...userData, genreList: genreIds });
   }
 
+  const [newPicUrl, setNewPicUrl] = useState<string>(''); // State for the new picture URL
+
+  const handlePicUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewPicUrl(event.target.value);
+  };
+
+  const handlePicUpdate = async () => {
+    setUserData({ ...userData, profilePicLink: newPicUrl });
+    // Optionally reset the newPicUrl state here if needed
+    setNewPicUrl('');
+  };
   const handleUpdateUsername = (event: any) => {
     setUserData({ ...userData, username: event.target.value });
   }
@@ -73,6 +84,22 @@ export default function Profile() {
           <Avatar src={userData.profilePicLink} alt="Profile" style={{ width: 175, height: 175 }} />
           <Button variant="contained" component="label" style={{ marginTop: '20px' }} onClick={handleUpdateUser}>
             Update User</Button>
+        </Grid>
+        <Grid item xs={12}>
+        <TextField
+            fullWidth
+            label="New Profile Picture URL"
+            value={newPicUrl}
+            onChange={handlePicUrlChange}
+            variant="outlined"
+          />
+          <Button 
+            variant="contained" 
+            color="primary" 
+            onClick={handlePicUpdate} 
+            style={{ marginTop: '10px' }}>
+            Update Picture
+          </Button>
         </Grid>
         <Grid item>
           <Typography variant="h4">Username:<TextField id="outlined-basic"

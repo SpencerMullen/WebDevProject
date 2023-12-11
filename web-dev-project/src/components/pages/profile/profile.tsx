@@ -94,7 +94,7 @@ export default function Profile() {
         </Grid>
         <Grid item>
           <Typography variant="h4">Favorite Genres</Typography>
-          <GenreSelectionForm selectedGenres={selectedGenres} setSelectedGenres={handleSelectGenres} />
+          <GenreSelectionForm selectedGenres={selectedGenres} setSelectedGenres={handleSelectGenres} genreIds={userData.genreList} />
         </Grid>
 
       </Grid>

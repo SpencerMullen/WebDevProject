@@ -78,53 +78,85 @@ export default function Profile() {
   }
 
   return (
-    <Container maxWidth="sm">
-      <Grid container spacing={4} justifyContent="center" style={{ marginTop: '20px' }}>
-        <Grid item>
-          <Avatar src={userData.profilePicLink} alt="Profile" style={{ width: 175, height: 175 }} />
-          <Button variant="contained" component="label" style={{ marginTop: '20px' }} onClick={handleUpdateUser}>
-            Update User</Button>
+    <Container maxWidth="md" sx={{ py: 4 }}>
+      <Paper elevation={3} sx={{ p: 4, mb: 4 }}>
+        <Grid container spacing={4} justifyContent="center">
+          <Grid item xs={12} display="flex" flexDirection="column" alignItems="center">
+            <Avatar src={userData.profilePicLink} alt="Profile" sx={{ width: 175, height: 175 }} />
+            <Button variant="contained" sx={{ mt: 2 }} onClick={handleUpdateUser}>
+              Update User
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="New Profile Picture URL"
+              value={newPicUrl}
+              onChange={handlePicUrlChange}
+              variant="outlined"
+              margin="normal"
+            />
+            <Button 
+              variant="contained" 
+              color="primary" 
+              onClick={handlePicUpdate} 
+              sx={{ mt: 2 }}>
+              Update Picture
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Username"
+              variant="outlined"
+              value={userData.username}
+              onChange={handleUpdateUsername}
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Email"
+              variant="outlined"
+              value={userData.email}
+              onChange={handleUpdateEmail}
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              label="First Name"
+              variant="outlined"
+              value={userData.firstName}
+              onChange={handleUpdateFirstName}
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              label="Last Name"
+              variant="outlined"
+              value={userData.lastName}
+              onChange={handleUpdateLastName}
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="h6" gutterBottom>
+              User Type: {userData.userType}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="h6" gutterBottom>
+              Favorite Genres
+            </Typography>
+            <GenreSelectionForm selectedGenres={selectedGenres} setSelectedGenres={handleSelectGenres} genreIds={userData.genreList} />
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-        <TextField
-            fullWidth
-            label="New Profile Picture URL"
-            value={newPicUrl}
-            onChange={handlePicUrlChange}
-            variant="outlined"
-          />
-          <Button 
-            variant="contained" 
-            color="primary" 
-            onClick={handlePicUpdate} 
-            style={{ marginTop: '10px' }}>
-            Update Picture
-          </Button>
-        </Grid>
-        <Grid item>
-          <Typography variant="h4">Username:<TextField id="outlined-basic"
-            variant="outlined" value={userData.username} onChange={handleUpdateUsername} />
-          </Typography>
-        </Grid>
-        <Grid item>
-          <Typography variant="h4">Email:<TextField id="outlined-basic" onChange={handleUpdateEmail}
-            variant="outlined" value={userData.email} /> </Typography>
-        </Grid>
-        <Grid item>
-          <Typography variant='h4'>First Name:<TextField id="outlined-basic" variant="outlined" onChange={handleUpdateFirstName}
-            value={userData.firstName} /></Typography>
-          <Typography variant='h4'>Last Name:<TextField id="outlined-basic" variant="outlined" onChange={handleUpdateLastName}
-            value={userData.lastName} /></Typography>
-        </Grid>
-        <Grid item>
-          <Typography variant="h4">User Type: {userData.userType}</Typography>
-        </Grid>
-        <Grid item>
-          <Typography variant="h4">Favorite Genres</Typography>
-          <GenreSelectionForm selectedGenres={selectedGenres} setSelectedGenres={handleSelectGenres} genreIds={userData.genreList} />
-        </Grid>
-
-      </Grid>
+      </Paper>
     </Container>
-  )
+  );
 }

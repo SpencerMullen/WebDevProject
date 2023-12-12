@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
+import { Typography } from "@mui/material";
 import { Box, Image, Text, SimpleGrid, AspectRatio } from "@chakra-ui/react";
 import genreIdToName from "../../../utils/genreIdToName";
 import * as client from '../../user/client'
@@ -26,7 +27,7 @@ export default function Home({ loggedIn, username }: { loggedIn: boolean, userna
     return (
         <div>   
             <Box p={5}>
-                <Text fontSize="3xl">Hi User: {username}</Text>
+                <Typography variant="h4" fontWeight="300" color="gray.700" p={3} borderRadius="md" boxShadow="md">Hi User: {username}</Typography>
 
                 <SimpleGrid columns={[1, 2, 3, 5]} spacing={10}>
                     {movies.map((movie, index) => (

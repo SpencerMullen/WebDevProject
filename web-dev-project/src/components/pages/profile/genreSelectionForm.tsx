@@ -72,7 +72,7 @@ const GenreSelectionForm: React.FC<GenreSelectionFormProps> = ({ selectedGenres,
             {!loading && !error && (
               <Box className="genre-form-container">
 
-                <Grid templateColumns="repeat(3, 1fr)" gap={4}>
+                <Grid templateColumns="repeat(4, 1fr)" gap={4}>
                   {genreData.map((genre) => (
                     <GridItem key={genre.id}>
                       <Box

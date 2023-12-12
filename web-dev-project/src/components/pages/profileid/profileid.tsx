@@ -26,7 +26,7 @@ export default function ProfileId() {
       setFirstName(userInfo.firstName);
       setLastName(userInfo.lastName);
       if (userInfo.genreList.length > 0) {
-        let favGenresString = userInfo.genreList.map((genreId) => parseInt(genreId));
+        let favGenresString = userInfo.genreList.map((genreId: any) => parseInt(genreId));
         favGenresString = genreIdToName(favGenresString);
         setFavoriteGenres(favGenresString);
       }

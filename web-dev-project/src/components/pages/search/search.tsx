@@ -6,6 +6,7 @@ import { Movie } from '../../../types';
 import { Box, Image, Text, SimpleGrid, AspectRatio } from "@chakra-ui/react";
 import genreIdToName from "../../../utils/genreIdToName";
 import './search.css';
+import MovieCard from '../../MovieCard';
 
 export default function Search() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -41,7 +42,7 @@ export default function Search() {
       sort,
     };
     setSearchParams(newSearchParams);
-  }, [selectedGenres, params, sort]); 
+  }, [selectedGenres, params, sort]);
 
   const renderSelectValue = (selected) => {
     if (selected.length === 0) {
@@ -135,16 +136,16 @@ export default function Search() {
         <FormControl sx={{ width: 300 }}>
           <InputLabel>Sort By</InputLabel>
           <Select
-  value={sort}
-  onChange={(e) => {
-    handleSortChange(e);
-  }}
->
-  <MenuItem value="popularity.desc">Popularity Descending</MenuItem>
-  <MenuItem value="popularity.asc">Popularity Ascending</MenuItem>
-  <MenuItem value="primary_release_date.desc">Release Date Descending</MenuItem>
-  <MenuItem value="primary_release_date.asc">Release Date Ascending</MenuItem>
-</Select>
+            value={sort}
+            onChange={(e) => {
+              handleSortChange(e);
+            }}
+          >
+            <MenuItem value="popularity.desc">Popularity Descending</MenuItem>
+            <MenuItem value="popularity.asc">Popularity Ascending</MenuItem>
+            <MenuItem value="primary_release_date.desc">Release Date Descending</MenuItem>
+            <MenuItem value="primary_release_date.asc">Release Date Ascending</MenuItem>
+          </Select>
         </FormControl>
         <Button color="primary" variant="contained" onClick={handleSearchButtonClick} size="large">
           Search
@@ -154,26 +155,14 @@ export default function Search() {
 
       <SimpleGrid columns={[1, 2, 3, 5]} spacing={10}>
         {movies.map((movie, index) => (
-          <Box key={index} p={4} shadow="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
-            <AspectRatio ratio={2 / 3} width="100%">
-              <Image
-                src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.image}`}
-                alt={movie.title}
-                boxSize="300px"
-                objectFit="cover" // This makes sure the entire image fits within the box, though it may leave some empty space
-              // htmlWidth="110%" // This sets the width relative to the parent element
-              // htmlHeight="auto"
-              />
-            </AspectRatio>
-            <Box p="6">
-              <Text mt={2} fontSize="xl" fontWeight="bold" lineHeight="tight" isTruncated>
-                {movie.title}
-              </Text>
-              <Text mt={2} color="gray.500">Genres: {genreIdToName(movie.genre)}</Text>
-              <Text color="gray.600">Rating: {movie.rating} ({movie.num_rating} votes)</Text>
-              <Text color="gray.600">Release Date: {movie.date}</Text>
-            </Box>
-          </Box>
+          <MovieCard key={index}
+            title={movie.title}
+            image={movie.image}
+            genre={movie.genre}
+            rating={movie.rating}
+            num_rating={movie.num_rating}
+            date={movie.date}
+          />
         ))}
       </SimpleGrid>
     </div>

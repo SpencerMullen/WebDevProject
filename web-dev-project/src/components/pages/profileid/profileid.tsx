@@ -50,29 +50,40 @@ export default function ProfileId() {
   }
 
   return (
-    <Container maxWidth="sm">
-      <Grid container spacing={4} justifyContent="center" style={{ marginTop: '20px' }}>
-        <Grid item>
-          <Avatar src={profilePic} alt="Profile" style={{ width: 175, height: 175 }} />
-          <Typography variant="h4" style={{ marginTop: '20px' }}>{userProfile.username}</Typography>
-          {/*delete user button if current user is admin*/}
-          {isCurrentUserAdmin && (
-            <Button variant="contained" component="label" style={{ marginTop: '20px' }} onClick={handleDeleteUser}>
-              Delete User</Button>
-          )}
-        </Grid>
+    <Container maxWidth="md" sx={{ py: 4 }}>   
+    <Paper elevation={3} sx={{ p: 4, mb: 4 }}> 
+    <Grid container spacing={4} justifyContent="center" style={{ marginTop: '20px' }}>
+  <Grid item>
+    <Avatar src={profilePic} alt="Profile" style={{ width: 175, height: 175 }} />
+    <Typography variant="h4" style={{ marginTop: '20px' }}>{userProfile.username}</Typography>
+    {/* Delete user button if current user is admin */}
+    {isCurrentUserAdmin && (
+      <Button variant="contained" component="label" style={{ marginTop: '20px' }} onClick={handleDeleteUser}>
+        Delete User
+      </Button>
+    )}
+  </Grid>
 
-        <Grid item xs={12}>
-          <Typography variant="h5">About Me</Typography>
-          <Typography>Username: {username}</Typography>
-          <Typography>Email: {email}</Typography>
-          <Typography>First Name: {firstName}</Typography>
-          <Typography>Last Name: {lastName}</Typography>
-          <Typography>Favorite Genres: {favoriteGenres}</Typography>
-
-        </Grid>
-
-      </Grid>
+  <Grid item xs={12}>
+    <Typography variant="h5">About Me</Typography>
+  </Grid>
+  <Grid item xs={12}>
+    <Typography variant="body1">Username: {username}</Typography>
+  </Grid>
+  <Grid item xs={12}>
+    <Typography variant="body1">Email: {email}</Typography>
+  </Grid>
+  <Grid item xs={12}>
+    <Typography variant="body1">First Name: {firstName}</Typography>
+  </Grid>
+  <Grid item xs={12}>
+    <Typography variant="body1">Last Name: {lastName}</Typography>
+  </Grid>
+  <Grid item xs={12}>
+    <Typography variant="body1">Favorite Genres: {favoriteGenres}</Typography>
+  </Grid>
+</Grid>
+      </Paper>  
     </Container>
   )
 }

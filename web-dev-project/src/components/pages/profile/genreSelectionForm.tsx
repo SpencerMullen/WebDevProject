@@ -6,14 +6,15 @@ import './GenreSelectionForm.css';
 
 interface GenreSelectionFormProps {
   selectedGenres: string[];
-  setSelectedGenres: React.Dispatch<React.SetStateAction<string[]>>;
+  setSelectedGenres: (genres: string[]) => void;
+  genreIds: string[];
 }
-const GenreSelectionForm: React.FC<GenreSelectionFormProps> = ({ selectedGenres, setSelectedGenres }) => {
+const GenreSelectionForm: React.FC<GenreSelectionFormProps> = ({ selectedGenres, setSelectedGenres, genreIds }) => {
   const [genreData, setGenreData] = useState([]);
   // data is stored:  genreId: genreName
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
 
   const toggleShow = () => {
     setShow(!show);
@@ -23,7 +24,6 @@ const GenreSelectionForm: React.FC<GenreSelectionFormProps> = ({ selectedGenres,
       try {
         const response = await axios.get('http://localhost:8081/genres/movies')
         setGenreData(response.data);
-        console.log(response)
       } catch (e) {
         console.error('Error fetching genres:', e);
         setError('Error fetching genres. Please try again later.');
@@ -31,8 +31,24 @@ const GenreSelectionForm: React.FC<GenreSelectionFormProps> = ({ selectedGenres,
         setLoading(false);
       }
     };
-    fetchGenres();
+    // Add any genres in the genreId array to the selectedGenres array
+    const addFetchedGenreIds = async () => {
+      await fetchGenres();
+      console.log("ADDING GENRE IDS: ", genreIds.length);
+      genreIds.forEach((genreId) => {
+        genreData.forEach((genre) => {
+          console.log("genreId: ", genreId);
+          console.log("genre: ", genre);
+          if (genre.id === genreId) {
+            setSelectedGenres([...selectedGenres, genre]);
+          }
+        });
+      });
+    }
+    addFetchedGenreIds();
   }, []);
+
+
   const handleGenreClick = (genre: string) => {
     if (selectedGenres.includes(genre)) {
       setSelectedGenres(selectedGenres.filter((selectedGenre) => selectedGenre !== genre));
@@ -46,11 +62,11 @@ const GenreSelectionForm: React.FC<GenreSelectionFormProps> = ({ selectedGenres,
     <ChakraProvider>
       <VStack spacing={4}>
         <HStack justifyContent="space-between" alignItems="center">
-          <Text fontSize="3xl" mb={4} style={{marginTop: "30px"}}> Select up to 5 of your top Genres </Text>
-          <Icon as={show ? ChevronUpIcon : ChevronDownIcon} onClick={toggleShow} />                 
+          <Text fontSize="3xl" mb={4} style={{ marginTop: "30px" }}> Select up to 5 of your top Genres </Text>
+          <Icon as={show ? ChevronUpIcon : ChevronDownIcon} onClick={toggleShow} />
         </HStack>
         {show && (
-          <> 
+          <>
             {loading && <Text>Loading genres...</Text>}
             {error && <Text color="red">{error}</Text>}
             {!loading && !error && (

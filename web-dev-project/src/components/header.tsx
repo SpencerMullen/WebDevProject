@@ -1,44 +1,51 @@
-// components/header.js
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 import * as client from '../components/user/client';
-let loggedIn = true; //need to convert this to some global variable or something like that... I don't think the header
-// will change when you login or logout... need to use react hooks of some sort.
+import MovieIcon from './movie.png';
+import HomeIcon from '@mui/icons-material/Home'; 
+import PersonIcon from '@mui/icons-material/Person'; 
+import SearchIcon from '@mui/icons-material/Search';
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" />
 
-function Header() {
+
+function Header({ loggedIn, setLoggedIn, setUsername }: { loggedIn: boolean, setLoggedIn: (loggedIn: boolean) => void, setUsername: (username: string) => void }) {
+    const navigate = useNavigate();
     const handleLogout = async () => {
-        console.log('this worked')
-        client.signout();
+        const response = await client.signout();
+        setLoggedIn(false);
+        setUsername('Guest');
+        navigate('/');
     }
     return (
-        <AppBar position="static">
+        <AppBar position="static" sx={{ width: '100%', marginBottom: '20px', marginTop: '0px', height: '80px', backgroundColor: 'teal' }}>
             <Toolbar>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    My App
+            <img src={MovieIcon} alt="Movies" style={{ width: '40px', height: '40px' }} />
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontFamily: 'Pacifico', fontSize: '2rem' }}>
+                 MovieMate
                 </Typography>
                 <Button color="inherit" component={Link} to="/">
-                    Home
+                <HomeIcon/> Home
                 </Button>
                 <Button color="inherit" component={Link} to="/search">
-                    Search
+                <SearchIcon /> Search
                 </Button>
                 {loggedIn ? (
                     <span>
                         <Button color="inherit" component={Link} to="/profile">
-                            Profile
+                        <PersonIcon /> Profile
                         </Button>
-                        <Button color='inherit' component={Link} to='/login' onClick={handleLogout}>
+                        <Button variant="outlined" color='inherit' component={Link} to='/login' onClick={handleLogout}>
                             Logout
                         </Button>
                     </span>
                 ) : (
-                    <Button color="inherit" component={Link} to="/login">
+                    <Button variant="outlined" color="inherit" component={Link} to="/login">
                         Login
                     </Button>
                 )}
             </Toolbar>
         </AppBar>
+
     );
 }
 

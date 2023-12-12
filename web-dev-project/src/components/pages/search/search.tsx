@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Movie } from '../../../types';
 import { Box, Image, Text, SimpleGrid, AspectRatio } from "@chakra-ui/react";
 import genreIdToName from "../../../utils/genreIdToName";
+import './search.css';
 import MovieCard from '../../MovieCard';
 
 export default function Search() {
@@ -74,13 +75,24 @@ export default function Search() {
 
   const handleSearchButtonClick = () => {
     fetchMovies();
+    handleClearSearch();
   };
+
+  const handleClearSearch = () => {
+    setParams('');
+  }
 
   return (
     <div>
-      <Typography variant="subtitle1" style={{ marginLeft: 10, marginTop: 10 }}>
+      {/* <Typography variant="subtitle1" style={{ marginLeft: 10, marginTop: 10 }}>
         Search movies by title, or discover new ones by selecting genres and sorting options.
-      </Typography>
+      </Typography> */}
+      <div className="instructions-container">
+        <p className="instructions-heading">How to Search</p>
+        <p className="instructions-text">
+          Search movies by title, OR discover new ones by selecting genres and sorting options.
+        </p>
+      </div>
       <div
         style={{
           marginLeft: 10,

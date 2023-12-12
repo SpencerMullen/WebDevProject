@@ -5,11 +5,26 @@ import MovieIcon from './movie.png';
 import HomeIcon from '@mui/icons-material/Home'; 
 import PersonIcon from '@mui/icons-material/Person'; 
 import SearchIcon from '@mui/icons-material/Search';
+import { useLocation } from 'react-router-dom';
+
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" />
 
 
 function Header({ loggedIn, setLoggedIn, setUsername }: { loggedIn: boolean, setLoggedIn: (loggedIn: boolean) => void, setUsername: (username: string) => void }) {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const isLoginOrRegister = location.pathname === '/login' || location.pathname === '/register';
+    const appBarStyles = {
+        width: '100%',
+        marginBottom: '20px',
+        height: '80px',
+        backgroundColor: 'teal',
+        ...(isLoginOrRegister && { width: '101%', marginLeft: '-10px', marginTop: '-10px' })
+    };
+    const stickyPaths = ['/profile', '/login', '/register'];
+    const isStickyPath = stickyPaths.some(path => location.pathname.startsWith(path));
+    const appBarPosition = isStickyPath ? 'sticky' : 'fixed';
     const handleLogout = async () => {
         const response = await client.signout();
         setLoggedIn(false);
@@ -17,7 +32,7 @@ function Header({ loggedIn, setLoggedIn, setUsername }: { loggedIn: boolean, set
         navigate('/');
     }
     return (
-        <AppBar position="static" sx={{ width: '100%', marginBottom: '20px', marginTop: '0px', height: '80px', backgroundColor: 'teal' }}>
+        <AppBar position={appBarPosition} sx={appBarStyles}>
             <Toolbar>
             <img src={MovieIcon} alt="Movies" style={{ width: '40px', height: '40px' }} />
             <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontFamily: 'Pacifico', fontSize: '2rem' }}>

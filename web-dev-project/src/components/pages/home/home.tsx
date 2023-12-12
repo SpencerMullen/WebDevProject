@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
-import { Typography, Container } from "@mui/material";
-import { Box, Image, Text, SimpleGrid, AspectRatio } from "@chakra-ui/react";
-import genreIdToName from "../../../utils/genreIdToName";
+import { Typography } from "@mui/material";
+import { Box, SimpleGrid } from "@chakra-ui/react";
 import * as client from '../../user/client'
 import MovieCard from "../../MovieCard";
 
@@ -27,8 +26,21 @@ export default function Home({ loggedIn, username }: { loggedIn: boolean, userna
 
     return (
         <div>
-            <Box p={5}>
-                <Text fontSize="3xl">Hi User: {username}</Text>
+            <Box p={5} mt={75}>
+            <Typography  variant="h4" // Slightly smaller than h4 for better fit
+                color="teal" // Use the primary color from your theme, which you can customize
+                sx={{
+                    fontFamily: 'Roboto Slab, serif',
+                    fontWeight: 700,
+                    padding: '8px 16px', // Symmetrical padding
+                    margin: '16px 0', // Margin at the top and bottom
+                    borderRadius: '8px', // Slightly rounded corners
+                    boxShadow: '0 4px 6px rgba(0,0,0,0.1)', // Softer shadow for depth
+                    backgroundColor: 'beige', // A light background color for contrast
+                    display: 'inline-block', // Wrap the background around the text
+                    }}>
+                        Hi {username}!            
+            </Typography>
 
                 <SimpleGrid columns={[1, 2, 3, 5]} spacing={10}>
                     {movies.map((movie, index) => (

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Container, Typography, Avatar, TextField, Button, Grid, Paper, Input } from '@mui/material';
+import { Container, Typography, Avatar, TextField, Button, Grid, Paper } from '@mui/material';
 import GenreSelectionForm from './genreSelectionForm';
 import * as client from '../../user/client'
 
@@ -83,7 +83,17 @@ export default function Profile() {
         <Grid container spacing={4} justifyContent="center">
           <Grid item xs={12} display="flex" flexDirection="column" alignItems="center">
             <Avatar src={userData.profilePicLink} alt="Profile" sx={{ width: 175, height: 175 }} />
-            <Button variant="contained" sx={{ mt: 2 }} onClick={handleUpdateUser}>
+            <Button 
+            variant="contained" 
+            onClick={handleUpdateUser} 
+            sx={{
+              mt: 2,
+              backgroundColor: 'teal', // Use the teal color for the button background
+              '&:hover': {
+                backgroundColor: 'darken(teal, 0.2)', // Optionally darken the button on hover
+              },
+            }}
+            >
               Update User
             </Button>
           </Grid>
@@ -100,7 +110,13 @@ export default function Profile() {
               variant="contained" 
               color="primary" 
               onClick={handlePicUpdate} 
-              sx={{ mt: 2 }}>
+              sx={{
+                mt: 2,
+                backgroundColor: 'teal',
+                '&:hover': {
+                  backgroundColor: 'darken(teal, 0.2)',
+                },
+              }}>
               Update Picture
             </Button>
           </Grid>

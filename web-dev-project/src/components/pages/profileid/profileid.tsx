@@ -9,7 +9,7 @@ export default function ProfileId() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [userProfile, setUserProfile] = useState<User | null>(null);
-  const [movies, setMovies] = useState<Movie[]>([]);
+  const [profilePic, setProfilePic] = useState<string>('');
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [firstName, setFirstName] = useState<string>('');
@@ -23,6 +23,7 @@ export default function ProfileId() {
       setUserProfile(userInfo);
       setUsername(userInfo.username);
       setEmail(userInfo.email);
+      setProfilePic(userInfo.profilePicLink);
       setFirstName(userInfo.firstName);
       setLastName(userInfo.lastName);
       if (userInfo.genreList.length > 0) {
@@ -52,7 +53,7 @@ export default function ProfileId() {
     <Container maxWidth="sm">
       <Grid container spacing={4} justifyContent="center" style={{ marginTop: '20px' }}>
         <Grid item>
-          <Avatar src={userProfile.profilePic} alt="Profile" style={{ width: 175, height: 175 }} />
+          <Avatar src={profilePic} alt="Profile" style={{ width: 175, height: 175 }} />
           <Typography variant="h4" style={{ marginTop: '20px' }}>{userProfile.username}</Typography>
           {/*delete user button if current user is admin*/}
           {isCurrentUserAdmin && (

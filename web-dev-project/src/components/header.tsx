@@ -14,7 +14,7 @@ function Header({ loggedIn, setLoggedIn, setUsername }: { loggedIn: boolean, set
     const navigate = useNavigate();
     const location = useLocation();
 
-    const isLoginOrRegister = location.pathname === '/login' || location.pathname === '/register';
+    const isLoginOrRegister = location.pathname === '/login' || location.pathname === '/register'|| location.pathname.startsWith('/profile/');
     const appBarStyles = {
         width: '100%',
         marginBottom: '20px',

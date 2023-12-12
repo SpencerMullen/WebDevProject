@@ -1,8 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap');
+
 .instructions-container {
     background-color: #f8f8f8; /* Light grey background */
-    border-left: 4px solid #2c3e50; /* A colored line to attract attention */
+    border-left: 10px solid teal; /* A colored line to attract attention */
     padding: 20px;
     margin-top: 20px; /* Spacing from other elements */
+    margin-left: -8px;
   }
   
   .instructions-heading {
@@ -13,8 +16,9 @@
   }
   
   .instructions-text {
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: 1.3rem;
+    font-family: 'Roboto Slab, serif';
+    line-height: 0.5;
     color: #34495e;
   }
   

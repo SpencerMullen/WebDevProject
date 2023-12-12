@@ -9,7 +9,9 @@ function Footer() {
     const location = useLocation();
 
     const isProfilePage = location.pathname.startsWith('/profile');
-    const footerPosition = isProfilePage ? 'sticky' : 'fixed';
+    const isProfilePageExact = location.pathname === '/profile' || location.pathname === '/profile/';
+    const footerPosition = isProfilePage || isProfilePageExact ? 'sticky' : 'fixed';
+
     return (
         <Paper elevation={3} sx={{ position: footerPosition, bottom: 0, left: 0, right: 0 }}>
             <BottomNavigation>

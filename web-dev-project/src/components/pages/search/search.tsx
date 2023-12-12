@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { TextField, Select, MenuItem, FormControl, InputLabel, Button, Checkbox, ListItemText, OutlinedInput, Typography } from '@mui/material';
+import { TextField, Select, MenuItem, FormControl, InputLabel, Button, Checkbox, ListItemText, OutlinedInput } from '@mui/material';
 import axios from 'axios';
 import { Movie } from '../../../types';
-import { Box, Image, Text, SimpleGrid, AspectRatio } from "@chakra-ui/react";
-import genreIdToName from "../../../utils/genreIdToName";
+import { SimpleGrid } from "@chakra-ui/react";
 import './search.css';
 import MovieCard from '../../MovieCard';
 
@@ -84,9 +83,6 @@ export default function Search() {
 
   return (
     <div>
-      {/* <Typography variant="subtitle1" style={{ marginLeft: 10, marginTop: 10 }}>
-        Search movies by title, or discover new ones by selecting genres and sorting options.
-      </Typography> */}
       <div className="instructions-container">
         <p className="instructions-heading">How to Search</p>
         <p className="instructions-text">
@@ -147,7 +143,17 @@ export default function Search() {
             <MenuItem value="primary_release_date.asc">Release Date Ascending</MenuItem>
           </Select>
         </FormControl>
-        <Button color="primary" variant="contained" onClick={handleSearchButtonClick} size="large">
+        <Button
+          variant="contained"
+          size="large"
+          onClick={handleSearchButtonClick}
+          sx={{
+            backgroundColor: 'teal', // Use the teal color for the button background
+            '&:hover': {
+              backgroundColor: 'darken(teal, 0.2)', // Optionally darken the button on hover
+            },
+          }}
+          >
           Search
         </Button>
       </div>

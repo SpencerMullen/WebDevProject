@@ -14,12 +14,12 @@ GET http://localhost:8081/
 
 ###
 # Get genre options
-GET http://localhost:8081/genres/movies
+GET http://localhost:8081/movies/genres
 Content-Type: application/json
 
 ###
 # Get movies by genre id
-GET http://localhost:8081/search/genre/28
+GET http://localhost:8081/movies/genre-search/28
 Content-Type: application/json
 
 ###

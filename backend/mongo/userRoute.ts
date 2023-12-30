@@ -1,35 +1,32 @@
 import { Request, Response } from 'express';
-import createNewUser from './routes/createNewUser';
-import { findUserById, findAllUsers } from './routes/findUsers';
-import signIn from './routes/signIn';
-import { updateUser } from './routes/updateUser';
+import createNewUser from './DAO/createNewUser';
+import { findUserById, findAllUsers } from './DAO/findUsers';
+import signInUser from './DAO/signInUser';
+import { updateUser } from './DAO/updateUser';
 import model from './model';
 
 const UsersRoutes = (app: any) => {
-    app.get('/users', async (req: Request, res: Response) => {
+    const getAllUsers = async (req: Request, res: Response) => {
         try {
             const users = await findAllUsers();
             res.status(200).json(users);
         } catch (error) {
             res.status(400).json({ message: "Unable to find users" });
         }
-    });
-    app.get('/users/:id', async (req: Request, res: Response) => {
+    }
+    const getUserById = async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
             const user = await findUserById(id);
-            console.log("FIND USER BY ID BACKEND: ", user);
             res.status(200).json(user);
         } catch (error) {
             res.status(400).json({ message: "Unable to find user" });
         }
-    });
-    // Get the current user's data
-    app.post('/users/current', async (req: Request, res: Response) => {
+    }    
+    const getCurrentUser = async (req: Request, res: Response) => {
         try {
             const session = req.session;
             if (session.currentUser) {
-                console.log("Session: ", session.currentUser.id)
                 const user = await findUserById(session.currentUser.id);
                 res.json(user);
             } else {
@@ -39,44 +36,41 @@ const UsersRoutes = (app: any) => {
             console.log(error);
             res.status(400).json({ message: "Error in getting user info" });
         }
-    });
-    //Update a user's data ... might need adjustments based on what data needs to be updated
-    app.put('/users/update/:id', async (req: Request, res: Response) => {
+    }
+    const updateUserById = async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
             const newUser = req.body;
             const status = await updateUser(id, newUser);
             const currentUser = await findUserById(id);
+
+            //log information if error occurs
         } catch (error) {
             res.status(400).json({ message: "Unable to update user" });
         }
-    });
-    app.post('/users/signup', async (req: Request, res: Response) => {
+    }
+    const signUp = async (req: Request, res: Response) => {
         try {
             const userData = req.body;
             const response = await createNewUser(userData);
-            console.log("BACKEND SIGNING UP");
             res.status(200).send('User created successfully');
         } catch (error: any) {
             res.status(500).send(error.message);
         }
-    });
-    app.post('/users/signin', async (req: Request, res: Response) => {
+    }
+    const signIn = async (req: Request, res: Response) => {
         const username = req.body.username;
         const password = req.body.password;
         try {
-            //isn't able to find the user
-            const currentUser = await signIn(username, password);
-            // console.log(currentUser);
+            const currentUser = await signInUser(username, password);
             const session = req.session;
             session.currentUser = currentUser;
-            console.log("BACKEND SIGNING IN");
             res.status(200).send('User signed in successfully');
         } catch (error: any) {
             res.status(500).send(error.message);
         }
-    });
-    app.post("/users/signout", async (req: Request, res: Response) => {
+    }
+    const signOut = async (req: Request, res: Response) => {
         const session = req.session;
         console.log("SIGNING OUT: ", session);
         if (session.currentUser) {
@@ -86,8 +80,8 @@ const UsersRoutes = (app: any) => {
         } else {
             res.status(401).send('User not signed in');
         }
-    });
-    app.post("/users/account", (req: Request, res: Response) => {
+    }
+    const getCurrentUserSession = (req: Request, res: Response) => {
         try {
             const session = req.session;
             if (session.currentUser) {
@@ -99,8 +93,8 @@ const UsersRoutes = (app: any) => {
             console.log(error);
             res.status(400).json({ message: "Error in getting user info" });
         }
-    });
-    app.delete('/users/:id', async (req: Request, res: Response) => {
+    }
+    const deleteUserById = async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
             console.log("DELETING USER: ", id);
@@ -109,8 +103,20 @@ const UsersRoutes = (app: any) => {
         } catch (error) {
             res.status(400).json({ message: "Unable to delete user" });
         }
-    });
+    }
 
+    app.get('/users', getAllUsers);
+    app.get('/users/:id', getUserById);
+    app.put('/users/update/:id', updateUserById);
+    app.post('/users/signup', signUp);
+    app.post('/users/signin', signIn);
+    app.post("/users/signout", signOut);
+    app.delete('/users/:id', deleteUserById);
+
+    //look into removing one of these?
+    app.post('/users/current', getCurrentUser);
+    app.post("/users/account", getCurrentUserSession);
+    
 }
 
 export default UsersRoutes;

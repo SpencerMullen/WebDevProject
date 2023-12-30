@@ -1,15 +1,14 @@
-import express, { Request, Response } from 'express';
+import { Request, Response } from 'express';
 import searchByParam from './Search/searchByParam';
 import searchByGenre from './Search/searchByGenre';
 import getGenreOptions from './Genre/getGenreOptions';
 import searchMostPopularMovies from './Search/searchMostPopularMovies'; 
 import searchById from './Search/searchById';
-import { findUserById } from '../mongo/routes/findUsers';
+import { findUserById } from '../mongo/DAO/findUsers';
 
-let router = express.Router();
-
+// need to rename all of these pathings - very disorganized.
 const MoviesRoutes = (app: any) => {
-    app.get("/search/", (req: Request, res: Response) => {        
+    const searchMovie = (req: Request, res: Response) => {        
         try {
             const genre = typeof req.query.genre === 'string' ? req.query.genre : '';
             const title = typeof req.query.title === 'string' ? req.query.title : '';
@@ -20,8 +19,8 @@ const MoviesRoutes = (app: any) => {
         } catch (error: any) {
             res.status(500).send(error.message);
         }
-    });
-    app.get("/search/genre/:genre", (req: Request, res: Response) => {
+    }
+    const searchMoviesByGenres = (req: Request, res: Response) => {
         const genres = req.params.genre.split(',');
         try {
             searchByGenre(genres).then((movies) => {
@@ -30,8 +29,8 @@ const MoviesRoutes = (app: any) => {
         } catch (error: any) {
             res.status(500).send(error.message);
         }
-    });
-    app.get("/genres/movies", (req: Request, res: Response) => {
+    }
+    const getGenres = (req: Request, res: Response) => {
         try {
             getGenreOptions().then((genres) => {
                 res.send(genres);
@@ -39,8 +38,8 @@ const MoviesRoutes = (app: any) => {
         } catch (error: any) {
             res.status(500).send(error.message);
         }
-    });
-    app.get('/movies/popular', (req: Request, res: Response) => {
+    }
+    const getMostPopularMovies = (req: Request, res: Response) => {
         try {
             searchMostPopularMovies().then((movies) => {
                 res.send(movies);
@@ -48,8 +47,8 @@ const MoviesRoutes = (app: any) => {
         } catch (error: any) {
             res.status(500).send(error.message);
         }
-    });
-    app.get("/searchById/:id", (req: Request, res: Response) => {
+    }
+    const getMovieById = (req: Request, res: Response) => {
         const id = req.params.id;
         try {
             searchById(id).then((movie) => {
@@ -62,8 +61,8 @@ const MoviesRoutes = (app: any) => {
         } catch (error: any) {
             res.status(500).send(error.message);
         }
-    });
-    app.post("/movies/recommendations", async (req: Request, res: Response) => {
+    }
+    const getMovieRecommendations = async (req: Request, res: Response) => {
         try {
             //make sure to convert Id to string
             let user = null
@@ -73,16 +72,23 @@ const MoviesRoutes = (app: any) => {
             } else {
                 console.log("User not signed in");
             }
-
+            
             if (user) {
                 const userGenres = user.genreList;
                 const recommendedMovies = await searchByGenre(userGenres);
                 res.status(200).send(recommendedMovies);
             }
-
+            
         } catch (error: any) {
             res.status(500).send(error.message);
         }
-    });
+    }    
+
+    app.get("/movies/search", searchMovie);
+    app.get("/movies/genre-search/:genre", searchMoviesByGenres);
+    app.get("/movies/genres", getGenres);
+    app.get('/movies/popular', getMostPopularMovies);
+    app.get("/movies/:id", getMovieById);
+    app.post("/movies/recommendations", getMovieRecommendations);
 }
 export default MoviesRoutes;

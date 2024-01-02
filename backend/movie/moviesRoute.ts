@@ -6,7 +6,6 @@ import searchMostPopularMovies from './Search/searchMostPopularMovies';
 import searchById from './Search/searchById';
 import { findUserById } from '../mongo/DAO/findUsers';
 
-// need to rename all of these pathings - very disorganized.
 const MoviesRoutes = (app: any) => {
     const searchMovie = (req: Request, res: Response) => {        
         try {

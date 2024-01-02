@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 import * as client from '../components/user/client';
-import MovieIcon from './movie.png';
+import MovieIcon from '../assets/movie.png';
 import HomeIcon from '@mui/icons-material/Home'; 
 import PersonIcon from '@mui/icons-material/Person'; 
 import SearchIcon from '@mui/icons-material/Search';

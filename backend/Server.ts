@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from "cors";
@@ -19,6 +19,11 @@ declare module 'express-session' {
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+
+let frontendURL = process.env.FRONTEND_URL_LOCAL as string; 
+if (process.env.NODE_ENV == 'production') {
+  frontendURL = process.env.FRONTEND_URL_PROD as string;
+}
 const sessionOptions = {
   secret: "any string",
   resave: false,
@@ -35,15 +40,20 @@ app.use(
   session(sessionOptions)
 );
 
-
 UsersRoutes(app);
 MoviesRoutes(app);
+
 
 app.listen(PORT, () => {
   console.clear();
   console.log(`Example app listening at http://localhost:${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV}`)
+  let connectionString = process.env.MONGO_URI as string;
+  if (process.env.NODE_ENV == 'production') {
+    connectionString = process.env.MONGO_CLOUD as string;
+    console.log('Using cloud database');
+  }
 
-  const connectionString = process.env.MONGO_URI as string;
   try {
     mongoose.connect(connectionString).then(() => console.log('Connected to MongoDB'))
   } catch (error) {

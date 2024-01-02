@@ -1,5 +1,4 @@
-import { Box, Image, Text, SimpleGrid, AspectRatio } from "@chakra-ui/react";
-import { Movie } from "../types";
+import { Box, Image, Text, AspectRatio } from "@chakra-ui/react";
 import genreIdToName from "../utils/genreIdToName";
 
 interface MovieCardProps {

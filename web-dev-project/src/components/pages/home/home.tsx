@@ -6,16 +6,17 @@ import * as client from '../../user/client'
 import MovieCard from "../../MovieCard";
 
 export default function Home({ loggedIn, username }: { loggedIn: boolean, username: string }) {
-
     const [movies, setMovies] = useState([])
 
     const getMovies = async () => {
 
+        const backendUrl = import.meta.env.VITE_BACKEND_URL;
+        // console.log("Backend URL: ", backendUrl);
         if (loggedIn) {
             const response = await client.getRecommendations();
             setMovies(response)
         } else {
-            const response = await axios.get('http://localhost:8081/movies/popular')
+            const response = await axios.get(`${backendUrl}/movies/popular`)
             setMovies(response.data)
         }
     }
@@ -27,24 +28,24 @@ export default function Home({ loggedIn, username }: { loggedIn: boolean, userna
     return (
         <div>
             <Box p={5} mt={75}>
-            <Typography  variant="h4" // Slightly smaller than h4 for better fit
-                color="teal" // Use the primary color from your theme, which you can customize
+            <Typography  variant="h4" 
+                color="teal" 
                 sx={{
                     fontFamily: 'Roboto Slab, serif',
                     fontWeight: 700,
-                    padding: '8px 16px', // Symmetrical padding
-                    margin: '16px 0', // Margin at the top and bottom
-                    borderRadius: '8px', // Slightly rounded corners
-                    boxShadow: '0 4px 6px rgba(0,0,0,0.1)', // Softer shadow for depth
-                    backgroundColor: 'beige', // A light background color for contrast
-                    display: 'inline-block', // Wrap the background around the text
+                    padding: '8px 16px',
+                    margin: '16px 0',
+                    borderRadius: '8px',
+                    boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                    backgroundColor: 'beige',
+                    display: 'inline-block',
                     }}>
                         Hi {username}!            
             </Typography>
 
                 <SimpleGrid columns={[1, 2, 3, 5]} spacing={10}>
                     {movies.map((movie, index) => (
-                        console.log(movie),
+                        //TODO: need to validate movie type
                         <MovieCard key={index}
                             title={movie.title}
                             image={movie.image}

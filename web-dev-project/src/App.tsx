@@ -1,6 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-// import * as dotenv from 'dotenv';
-
 import Details from './components/pages/details/details'
 import Home from './components/pages/home/home'
 import Login from './components/pages/login/login'

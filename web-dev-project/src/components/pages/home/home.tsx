@@ -1,17 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react"
 import axios from "axios"
 import { Typography } from "@mui/material";
 import { Box, SimpleGrid } from "@chakra-ui/react";
 import * as client from '../../user/client'
 import MovieCard from "../../MovieCard";
+import { Movie } from "../../../types";
 
 export default function Home({ loggedIn, username }: { loggedIn: boolean, username: string }) {
-    const [movies, setMovies] = useState([])
+    const [movies, setMovies] = useState<Movie[]>([])
 
     const getMovies = async () => {
-
         const backendUrl = import.meta.env.VITE_BACKEND_URL;
-        // console.log("Backend URL: ", backendUrl);
         if (loggedIn) {
             const response = await client.getRecommendations();
             setMovies(response)
@@ -24,6 +24,13 @@ export default function Home({ loggedIn, username }: { loggedIn: boolean, userna
         getMovies();
     }, []);
 
+    const convertGenreIntoList = (genre: string): string[] => {
+        if (typeof genre !== 'string') {
+            return [];
+        }
+        const genreList = genre.split(',');
+        return genreList;
+    }
 
     return (
         <div>
@@ -45,11 +52,10 @@ export default function Home({ loggedIn, username }: { loggedIn: boolean, userna
 
                 <SimpleGrid columns={[1, 2, 3, 5]} spacing={10}>
                     {movies.map((movie, index) => (
-                        //TODO: need to validate movie type
                         <MovieCard key={index}
                             title={movie.title}
                             image={movie.image}
-                            genre={movie.genre}
+                            genre={convertGenreIntoList(String(movie.genre))}
                             rating={movie.rating}
                             num_rating={movie.num_rating}
                             date={movie.date}

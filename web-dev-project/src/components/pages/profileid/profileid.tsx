@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Typography, Avatar, Grid, Paper, Button } from '@mui/material';
-import { User, Movie } from '../../../types';
+import { User } from '../../../types';
 import * as client from '../../../components/user/client';
 import genreIdToName from '../../../utils/genreIdToName';
 

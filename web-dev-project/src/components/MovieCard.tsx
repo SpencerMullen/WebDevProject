@@ -4,13 +4,15 @@ import genreIdToName from "../utils/genreIdToName";
 interface MovieCardProps {
     title: string;
     image: string;
-    genre: string;
+    genre: string[];
     rating: number;
     num_rating: number;
     date: string;
 }
 
 const MovieCard = (movie: MovieCardProps) => {
+    // console.log(movie.genre)
+    // console.log(typeof movie.genre)
     return (
         <Box className="movieCard" p={4} shadow="sm" borderWidth="1px" borderRadius="lg" overflow="hidden"
             style={{ backgroundImage: 'linear-gradient(to bottom right, #ffffff, #e6e6e6)' }}

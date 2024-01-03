@@ -27,6 +27,7 @@ function Header({ loggedIn, setLoggedIn, setUsername }: { loggedIn: boolean, set
     const appBarPosition = isStickyPath ? 'sticky' : 'fixed';
     const handleLogout = async () => {
         const response = await client.signout();
+        console.log(response);
         setLoggedIn(false);
         setUsername('Guest');
         navigate('/');

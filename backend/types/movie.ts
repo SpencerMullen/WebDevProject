@@ -8,4 +8,5 @@ export type Movie = {
     description: string;
     image: string;
     id: number;
-}
+};
+

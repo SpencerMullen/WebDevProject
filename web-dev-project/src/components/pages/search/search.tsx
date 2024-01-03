@@ -1,18 +1,21 @@
-import { useState, useEffect } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect, SetStateAction } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { TextField, Select, MenuItem, FormControl, InputLabel, Button, Checkbox, ListItemText, OutlinedInput } from '@mui/material';
+import { TextField, Select, MenuItem, FormControl, InputLabel, Button, Checkbox, ListItemText, OutlinedInput, SelectChangeEvent } from '@mui/material';
 import axios from 'axios';
 import { Movie } from '../../../types';
 import { SimpleGrid } from "@chakra-ui/react";
 import './search.css';
 import MovieCard from '../../MovieCard';
+import { Genre } from '../../../types';
 
 export default function Search() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [params, setParams] = useState<string>('');
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [genreData, setGenreData] = useState([]);
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+  const [genreData, setGenreData] = useState<Genre[]>([]);
+  const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
   const [sort, setSort] = useState('');
 
   const fetchMovies = async () => {
@@ -43,7 +46,7 @@ export default function Search() {
     setSearchParams(newSearchParams);
   }, [selectedGenres, params, sort]);
 
-  const renderSelectValue = (selected) => {
+  const renderSelectValue = (selected: number[]) => {
     if (selected.length === 0) {
       return "Select up to 5 genres";
     }
@@ -54,12 +57,20 @@ export default function Search() {
     return selectedGenreNames.join(', ');
   }
   // Handlers for search input, genre, and sort by changes
-  const handleSearchChange = (event) => {
+  const handleSearchChange = (event: { target: { value: SetStateAction<string>; }; }) => {
     setParams(event.target.value);
 
   };
+  const convertGenreIntoList = (genre: string): string[] => {
+    if (typeof genre !== 'string') {
+        return [];
+    }
+    const genreList = genre.split(',');
+    return genreList;
+}
 
-  const handleGenreChange = (event) => {
+
+  const handleGenreChange = (event: { target: { value: any; }; }) => {
     const value = event.target.value;
     const genreIds = typeof value === 'string' ? value.split(',') : value;
     if (genreIds.length <= 5) {
@@ -67,7 +78,7 @@ export default function Search() {
     }
   };
 
-  const handleSortChange = (event) => {
+  const handleSortChange = (event: SelectChangeEvent<string>) => {
     setSort(event.target.value);
   };
 
@@ -164,7 +175,7 @@ export default function Search() {
           <MovieCard key={index}
             title={movie.title}
             image={movie.image}
-            genre={movie.genre}
+            genre={convertGenreIntoList(String(movie.genre))}
             rating={movie.rating}
             num_rating={movie.num_rating}
             date={movie.date}

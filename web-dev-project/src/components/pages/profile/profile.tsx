@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from 'react';
 import { Container, Typography, Avatar, TextField, Button, Grid, Paper } from '@mui/material';
 import GenreSelectionForm from './genreSelectionForm';
 import * as client from '../../user/client'
+import { Genre } from '../../../types';
 
 export default function Profile() {
   const [userData, setUserData] = useState<any>({
@@ -17,8 +19,8 @@ export default function Profile() {
     favoriteMovies: [],
     watchListId: [],
   });
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const handleSelectGenres = async (genres: string[]) => {
+  const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
+  const handleSelectGenres = async (genres: Genre[]) => {
     setSelectedGenres(genres);
     const genreIds = genres.map((genre) => genre.id);
     setUserData({ ...userData, genreList: genreIds });

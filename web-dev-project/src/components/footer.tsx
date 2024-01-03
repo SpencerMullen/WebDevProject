@@ -17,7 +17,7 @@ function Footer() {
             <BottomNavigation>
                 <Box sx={{ flexGrow: 1 }}>
                     <Typography variant="caption" color="textSecondary" sx={{ ml: 2, mt: 1 }}>
-                        Powered by <Link href="https://www.imdb.com/" target="_blank">IMDb API</Link>
+                        Powered by <Link to="https://www.themoviedb.org/?language=en-US" target="_blank">TMDb API</Link>
                     </Typography>
                 </Box>
                 <BottomNavigationAction icon={<HomeIcon />} component={Link} to="/" />

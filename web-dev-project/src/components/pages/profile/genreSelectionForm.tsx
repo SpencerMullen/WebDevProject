@@ -1,17 +1,18 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, ChakraProvider, Grid, GridItem, Text, VStack, HStack, Icon } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './GenreSelectionForm.css';
+import { Genre } from '../../../types'
 
 interface GenreSelectionFormProps {
-  selectedGenres: string[];
-  setSelectedGenres: (genres: string[]) => void;
+  selectedGenres: Genre[];
+  setSelectedGenres: (genres: Genre[]) => void;
   genreIds: string[];
 }
 const GenreSelectionForm: React.FC<GenreSelectionFormProps> = ({ selectedGenres, setSelectedGenres, genreIds }) => {
-  const [genreData, setGenreData] = useState([]);
-  // data is stored:  genreId: genreName
+  const [genreData, setGenreData] = useState<Genre[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [show, setShow] = useState(true);
@@ -34,12 +35,9 @@ const GenreSelectionForm: React.FC<GenreSelectionFormProps> = ({ selectedGenres,
     // Add any genres in the genreId array to the selectedGenres array
     const addFetchedGenreIds = async () => {
       await fetchGenres();
-      console.log("ADDING GENRE IDS: ", genreIds.length);
       genreIds.forEach((genreId) => {
         genreData.forEach((genre) => {
-          console.log("genreId: ", genreId);
-          console.log("genre: ", genre);
-          if (genre.id === genreId) {
+          if (genre.id === Number(genreId)) {
             setSelectedGenres([...selectedGenres, genre]);
           }
         });
@@ -49,14 +47,14 @@ const GenreSelectionForm: React.FC<GenreSelectionFormProps> = ({ selectedGenres,
   }, []);
 
 
-  const handleGenreClick = (genre: string) => {
+  const handleGenreClick = (genre: Genre) => {
     if (selectedGenres.includes(genre)) {
       setSelectedGenres(selectedGenres.filter((selectedGenre) => selectedGenre !== genre));
     } else if (selectedGenres.length < 5) {
       setSelectedGenres([...selectedGenres, genre]);
     }
   };
-  const isGenreSelected = (genre: string) => selectedGenres.includes(genre);
+  const isGenreSelected = (genre: Genre) => selectedGenres.includes(genre);
 
   return (
     <ChakraProvider>

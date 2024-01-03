@@ -1,13 +1,15 @@
 type Movie = {
     title: string;
-    genre: string[];
-    year: number;
-    rating: number;
+    genre: string;
+    date: string,
+    num_rating: number,
+    rating: number,
     director: string;
     description: string;
     image: string;
     id: number;
-}
+};
+
 
 type Show = {
     title: string;
@@ -32,4 +34,10 @@ type User = {
     id: number;
 }
 
-export type { Movie, Show, User };
+type Genre = {
+    name: string;
+    id: number;
+}
+
+export type { Movie, Show, User, Genre };
+

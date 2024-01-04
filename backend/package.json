@@ -5,6 +5,7 @@
   "main": "Server.ts",
   "scripts": {
     "start": "nodemon --exec ts-node server.ts",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

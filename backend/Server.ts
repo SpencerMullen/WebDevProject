@@ -43,17 +43,12 @@ app.use(
 UsersRoutes(app);
 MoviesRoutes(app);
 
+app.get('/', (req, res) => {
+  res.send('Server is running!');
+});
 
 app.listen(PORT, () => {
-  console.clear();
-  console.log(`Example app listening at http://localhost:${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV}`)
-  let connectionString = process.env.MONGO_URI as string;
-  if (process.env.NODE_ENV == 'production') {
-    connectionString = process.env.MONGO_CLOUD as string;
-    console.log('Using cloud database');
-  }
-
+  const connectionString = process.env.MONGO_CLOUD as string;
   try {
     mongoose.connect(connectionString).then(() => console.log('Connected to MongoDB'))
   } catch (error) {

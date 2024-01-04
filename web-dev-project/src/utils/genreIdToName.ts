@@ -85,7 +85,6 @@ const genres: Genre[] = [
 
 // Function to convert genre IDs to genre names
 export default function genreIdToName(genreIds: string[]): string {
-  console.log(genreIds)
     if (genreIds === undefined || genreIds.length === 0) {
       return "Unknown";
     }

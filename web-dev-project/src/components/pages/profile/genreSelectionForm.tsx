@@ -23,7 +23,7 @@ const GenreSelectionForm: React.FC<GenreSelectionFormProps> = ({ selectedGenres,
   useEffect(() => {
     const fetchGenres = async () => {
       try {
-        const response = await axios.get('http://localhost:8081/movies/genres')
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/movies/genres`)
         setGenreData(response.data);
       } catch (e) {
         console.error('Error fetching genres:', e);

@@ -19,14 +19,13 @@ export default function Search() {
   const [sort, setSort] = useState('');
 
   const fetchMovies = async () => {
-    const response = await axios.get(`http://localhost:8081/movies/search`, { params: searchParams });
-    console.log(response.data);
+    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/movies/search`, { params: searchParams });
     setMovies(response.data);
   };
 
   const fetchGenres = async () => {
     try {
-      const response = await axios.get('http://localhost:8081/movies/genres')
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/movies/genres`)
       setGenreData(response.data);
     } catch (e) {
       console.error('Error fetching genres:', e);

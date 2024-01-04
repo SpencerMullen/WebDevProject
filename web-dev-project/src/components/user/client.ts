@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 
-const BACKEND_API = "http://localhost:8081/users";
+const BACKEND_API = `${import.meta.env.VITE_BACKEND_URL}/users`;
 const request = axios.create({
   withCredentials: true,
 });
@@ -47,6 +47,6 @@ export const getCurrentUser = async () => {
 };
 
 export const getRecommendations = async () => {
-  const response = await request.post(`http://localhost:8081/movies/recommendations`);
+  const response = await request.post(`${import.meta.env.VITE_BACKEND_URL}/movies/recommendations`);
   return response.data;
 }

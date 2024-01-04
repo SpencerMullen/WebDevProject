@@ -7,8 +7,7 @@
     "dev": "nodemon --exec ts-node Server.ts",
     "build": "tsc",
     "start": "node dist/Server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "npm install --only=dev"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",

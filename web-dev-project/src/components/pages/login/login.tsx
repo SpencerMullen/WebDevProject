@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, Container, TextField, Button, Typography, Box } from '@mui/material';
 import * as client from '../../user/client'
 import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 export default function Login({ setLoggedIn, setUsername, username}: 
   { setLoggedIn: (loggedIn: boolean) => void, setUsername: (username: string) => void, username: string }) {
@@ -64,9 +65,9 @@ export default function Login({ setLoggedIn, setUsername, username}:
       </Box>
       <Typography variant="body2" style={{ marginTop: '16px', textAlign: 'center' }}>
         Don't have an account?{' '}
-        <Link href="/register" style={{ textDecoration: 'none' }}>
-          Register here
-        </Link>
+        <Link component={RouterLink} to="/register" style={{ textDecoration: 'none' }}>
+  Register here
+</Link>
       </Typography>
     </Container>
   )

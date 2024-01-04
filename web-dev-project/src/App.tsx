@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Details from './components/pages/details/details'
 import Home from './components/pages/home/home'
 import Login from './components/pages/login/login'
 import Profile from './components/pages/profile/profile'
@@ -33,15 +32,12 @@ function App() {
     getUsername();
   }, []);
 
-
-  // dotenv.config();
   return (
     <BrowserRouter>
       <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUsername={setUsername} />
       <Routes>
         <Route path="/" element={<Home username={username} loggedIn={loggedIn} />} />
         <Route path="/home" element={<Home username={username} loggedIn={loggedIn} />} />
-        <Route path="/details" element={<Details />} />
         <Route path="/login" element={<Login setLoggedIn={setLoggedIn} setUsername={setUsername} username={username} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />

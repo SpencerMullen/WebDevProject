@@ -3,7 +3,7 @@ import { Box, ChakraProvider, Grid, GridItem, Text, VStack, HStack, Icon } from 
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import './GenreSelectionForm.css';
+import './genreSelectionForm.css';
 import { Genre } from '../../../types'
 
 interface GenreSelectionFormProps {

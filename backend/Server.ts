@@ -32,7 +32,7 @@ const sessionOptions = {
 app.use(
   cors({
     credentials: true,
-    origin: frontendURL, //change this for deployment
+    origin: frontendURL,
   })
 );
 

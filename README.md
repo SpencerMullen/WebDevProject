@@ -1,6 +1,9 @@
 # WebDevProject - MovieMate
 
 Get movie recommendations based on your favorite movie genres!
+Try [Here](https://moviemate-frontend.onrender.com/)
+
+Current issues: user sessions cannot properly retrieve data when logged in on the deployed version.
 
 Tech stack: MongoDB, Express.js, React.js, Node.js, Typescript
 
